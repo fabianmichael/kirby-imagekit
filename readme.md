@@ -19,7 +19,7 @@ Current version: `1.0.0-beta1`
 
 The plugin will be extended by a responsive image component in the future with support for lazy-loading and placeholders (like on <https://fabianmichael.de>). These features will be released as a separate plugin, but you will only need one license to use ImageKit and the image component.
 
-![ImageKit’s Dashboard Widget](https://shared.fabianmichael.de/imagekit-widget.gif)
+<img src="https://shared.fabianmichael.de/imagekit-widget.gif" alt="ImageKit’s Dashboard Widget" width="436" height="230" />
 
 ## Download and Installation
 
