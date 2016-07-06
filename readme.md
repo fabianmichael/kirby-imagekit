@@ -14,9 +14,12 @@ Current version: `1.0.0-beta1`
 
 - **Image-resizing on demand:** Kirby’s built-in thumbnail engine resizes images on-the-fly while executing the code in your template files. On image-heavy pages, the first page-load can take very long or even exceed the maximum execution time of PHP. ImageKit resizes images only on-demand as soon as they are requested by the client.
 - **Security:** A lot of thumbnail libraries for PHP still offer the generation of resized images through URL parameters (e.g. `thumbnail.php?file=ambrosia.jpg&width=500`), which is a potential vector for DoS attacks. ImageKit only generates the thumbnails whose are defined in your page templates.
+- **Widget:** Generate pending thumbnails right from the panel with a single click.
 - **Self-Hosted:** Unlike many other image-resizing-services, ImageKit just sits in Kirby’s plugin directory, so you have everything under control without depending on external providers. No monthly fees. No visitor data is exposed to external companies. tl;dr: No bullshit!
 
 The plugin will be extended by a responsive image component in the future with support for lazy-loading and placeholders (like on <https://fabianmichael.de>). These features will be released as a separate plugin, but you will only need one license to use ImageKit and the image component.
+
+![ImageKit’s Dashboard Widget](https://shared.fabianmichael.de/imagekit-widget.gif)
 
 ## Download and Installation
 
