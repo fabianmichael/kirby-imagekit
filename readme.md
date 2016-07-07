@@ -27,7 +27,7 @@ The plugin will be extended by a responsive image component in the future with s
 
 -	PHP 5.4.0+
 -	Kirby 2.3.0+
-- tested only on Apache 2 with mod_rewrite, but may also works with other server setups
+- Tested on Apache 2 with mod_rewrite (but it should also work with other servers like nginx)
 
 ### Kirby CLI
 

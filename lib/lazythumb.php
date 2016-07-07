@@ -18,7 +18,6 @@ use RecursiveDirectoryIterator as DirWalker;
 class LazyThumb extends Thumb {
   
   const JOBFILE_SUFFIX     = '.imagekitjob.php';
-  const WEBSAFE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
   
   public function __construct($source = null, $params = []) {
     if (!is_null($source)) {
@@ -215,7 +214,7 @@ class LazyThumb extends Thumb {
     
     foreach($iterator as $file) {
       $pathname = $file->getPathname();
-      if(in_array(pathinfo($pathname, PATHINFO_EXTENSION), static::WEBSAFE_EXTENSIONS)) {
+      if(in_array(pathinfo($pathname, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif'])) {
         $created[] = $pathname;
       }
     }
