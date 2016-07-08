@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "kirby-plugin",
-  "author": "Fabian Michael",
-  "license": "ImageKit License (see license.md)",
+  "author": "Fabian Michael <hallo@fabianmichael.de>",
+  "license": "SEE LICENSE IN license.md",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-csso": "^2.0.0",
