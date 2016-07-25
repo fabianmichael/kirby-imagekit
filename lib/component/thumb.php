@@ -6,21 +6,30 @@ use Asset;
 use F;
 use Kirby\Component\Thumb as ThumbComponent;
 use Kirby\Plugins\ImageKit\LazyThumb;
+use Kirby\Plugins\ImageKit\ComplainingThumb;
 use Kirby\Plugins\ImageKit\ProxyAsset;
 
 
+/**
+ * Replacement for Kirby’s built-in `thumb` component with asynchronous thumb
+ * creation capabilities.
+ */
 class Thumb extends ThumbComponent {
   
   public function defaults() {
+    
     return array_merge(parent::defaults(), [
-      'imagekit.lazy'        => true,
-      'imagekit.widget'      => true,
-      'imagekit.widget.step' => 5,
-      'imagekit.license'     => 'BETA',
+      'imagekit.lazy'            => true,
+      'imagekit.complain'        => true,
+      'imagekit.widget'          => true,
+      'imagekit.widget.step'     => 5,
+      'imagekit.widget.discover' => true,
+      'imagekit.license'         => 'BETA',
     ]);
+    
   }
   
-  public function configure() {
+  public function configure() {    
     parent::configure();
     
     // Register route to catch non-existing files
@@ -29,6 +38,11 @@ class Thumb extends ThumbComponent {
     $this->kirby->set('route', [
       'pattern' => "{$base}/(:all)", // $base = 'thumbs' by default
       'action'  => function ($path) {
+        
+        if($this->kirby->option('imagekit.complain')) {
+          complainingthumb::enableSendError();
+          complainingthumb::setErrorFormat('image');
+        }
         
         // Try to load a jobfile for given thumb url and execute if exists
         $thumb = lazythumb::process($path);
@@ -56,7 +70,8 @@ class Thumb extends ThumbComponent {
     $thumb = new LazyThumb($file, $params);
     
     if($thumb->result instanceof ProxyAsset) {
-      // If the thumb is yet to be generated, use the virtual asset, created by the LazyThumb class
+      // If the thumb is yet to be generated, use the virtual asset,
+      // created by the LazyThumb class
       $asset = $thumb->result;
     } else {
       // Otherwise, create a new asset from the returned media object.

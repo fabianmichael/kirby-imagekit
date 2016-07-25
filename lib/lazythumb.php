@@ -14,21 +14,14 @@ use Thumb;
 use RecursiveIteratorIterator as Walker;
 use RecursiveDirectoryIterator as DirWalker;
 
-
+/**
+ * Extended version of Kirby’s thumb class for creating “lazy” thumbnails.
+ */
 class LazyThumb extends Thumb {
   
-  const JOBFILE_SUFFIX     = '.imagekitjob.php';
+  const JOBFILE_SUFFIX     = '-imagekitjob.php';
   
-  public function __construct($source = null, $params = []) {
-    if (!is_null($source)) {
-      // Making the source parameter optional, allows us to create instances
-      // of this class without invoking the constructor. This is needed, when
-      // the `static::run()` method is invoked.
-      $this->init($source, $params);
-    }
-  }
-  
-  protected function init($source, $params = []) {
+  public function __construct($source, $params = []) {
     
     $this->source      = $this->result = is_a($source, 'Media') ? $source : new Media($source);
     $this->options     = array_merge(static::$defaults, $this->params($params));
@@ -89,7 +82,7 @@ class LazyThumb extends Thumb {
     }
 
     $options = [
-      'imagekit.version' => IMAGEKIT_VERSION,
+      'imagekit.version' => imagekit()->version(),
       'source'     => [
         'filename' => $this->source->filename(),
         'dir'      => $dir,
@@ -139,15 +132,20 @@ class LazyThumb extends Thumb {
       $image = $page->image($thumbinfo['source']['filename']);
       
       if(!$image) {
-        throw new Exception('Source image could not be found.');
+        // If source image does not exist any more, remove the jobfile.
+        f::remove($jobfile);
+        return false;
       }
     } else {
       // If the image does not belong to a specific page, just
       // use an `Asset` as source.
       $image = new Asset($thumbinfo['source']['dir'] . DS . $thumbinfo['source']['filename']);
+      
+      if(!$image->exists()) {
+        f::remove($jobfile);
+        return false;
+      }
     }
-    
-    if(!$image->exists()) return false;
     
     // override url and root of the thumbs directory to the current values.
     // This prevents ImageKit from failing after your Kirby installation
@@ -156,7 +154,7 @@ class LazyThumb extends Thumb {
     $thumbinfo['options']['root'] = kirby()->roots->thumbs();
     
     // Finally execute job file by creating a thumb
-    $thumb = new Thumb($image, $thumbinfo['options']);
+    $thumb = new ComplainingThumb($image, $thumbinfo['options']);
     
     if (f::exists($thumb->destination()->root)) {
       // Delete job file if thumbnail has been generated successfully
