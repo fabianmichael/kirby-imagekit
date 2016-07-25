@@ -32,6 +32,38 @@
   cursor: default !important;
 }
 
+.imagekit-error-overlay {
+  background: rgba(#fff, .9);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 1em 4em;
+
+  p {
+    margin-bottom: 1em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.imagekit-error-icon {
+  display: inline-block;
+  background: inline('../images/icon-error@2x.png') 0 0 / 28px 32px no-repeat;
+  width: 28px;
+  height: 32px;
+  margin-bottom: .75em;
+}
+
 @keyframes imagekit-progress-indeterminate {
   0%   { background-position: 0 0; }
   100% { background-position: -40px 0; }
@@ -47,8 +79,10 @@
   height: 12px;
   background: #efefef;
   border: 2px solid #000;
-  transition: opacity .1s;
-
+  
+  animation: 1s imagekit-progress-indeterminate linear infinite;
+  background-size: 40px 40px;
+  
   &::-webkit-progress-value {
     background: transparent;
   }
@@ -64,15 +98,30 @@
   &[value]::-webkit-progress-value {
 	  background: #000;
   }
-
+  
   &:not([value]) {
-    background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAIAAAABc2X6AAABiklEQVR4nOXawY6DMBADUJP//2f2UGm7i2ghYTJjO71QDth6UUUhyYaiz77vJb2tqnjbtpLehrrBLjG312Edc/v9toi5/T1ZwdwO5/bmIxju5hMwrM3nYPiaP4Jhav4GhqP5Agw78zUYXuZbYBiZ74LhYu4Aw8LcB4a+uRsMcfMIGMrmQTBkzeNgaJofgSFofgqGmjkADClzDBg65jAwRMyRYCiYg8GgN8eDwW2eAgaxeRYYrOaJYFCa54LBZ54OBpk5AwwmcxIYNOY8MDjMqWAQmLPBqDZv5UOe3YvqIc8ufR3WMb/7FjH/K1vBfGyyN5/UeJvPO4zNHwtczd/SLc0X0X7m61wz861QJ/PdRBtzR5yHuS/LwNwdpG4eSZE2D0bomsevFzU/uljR/PQXImcOuA1omWPu9ULmsD90FXPkU5uEOfjRnN8c//5Fbp7yks1snjWTQmueOF3GaZ47J0ponj7xzWbOWN2gMictYfGY89YpScypi9EM5uwdB+Xmgm0lxduWSroLzT9N1/B1F+eRwAAAAABJRU5ErkJggg==');
-    background-size: 40px 40px;
-    animation: 1s imagekit-progress-indeterminate linear infinite;
+    background-image: inline('../images/progress-indeterminate@2x.png');
     opacity: .5;
   }
   
+  &[value] {
+    background-image: inline('../images/progress-running@2x.png')
+  }
+  
   &.is-hidden {
-    opacity: 0;
+    visibility: hidden;
+  }
+  
+  &.is-disabled {
+    animation-play-state: paused;
+  }
+}
+
+.imagekit-progress-text {
+  font-size: 14px;
+  font-style: italic;
+  
+  .imagekit-progress.is-hidden + & {
+    visibility: hidden; 
   }
 }

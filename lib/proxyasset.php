@@ -13,7 +13,10 @@ use Str;
 use Thumb;
 use Url;
 
-
+/**
+ * An extended version of Kirby’s Asset class, which also works with
+ * files that do not exist yet.
+ */
 class ProxyAsset extends Asset {
   
   // Thumb parameters like you would path to the `Thumb` class’ constructor
@@ -105,6 +108,7 @@ class ProxyAsset extends Asset {
   public function dimensions() {
     
     if($this->generated) {
+      // If the thumbnail has been generated, get dimensions from thumb file.
       return parent::dimensions();
     }
     
@@ -172,12 +176,6 @@ class ProxyAsset extends Asset {
   public function is($value) {
     return f::is($this->generated ? $this->root : $this->original->root(), $value);
   }
-
-  // Methods that don’t need to be overloaded:
-  // thumb, resize, crop, width, height, ratio, scale, bw, blur
-  // => thumb() fails automatically, if called on a (Proxy)Asset with original set.
-  // isThumb, isWebsafe
-  // => Don’t need to result file to be in place and work without any further help.
   
   public function read($format = null) {
     $this->generate();
@@ -254,4 +252,10 @@ class ProxyAsset extends Asset {
     return parent::imagesize();
   }
   
+  
+    // Methods that don’t need to be overloaded:
+    // thumb, resize, crop, width, height, ratio, scale, bw, blur
+    // => thumb() fails automatically, if called on a (Proxy)Asset with original set.
+    // isThumb, isWebsafe
+    // => Don’t need the result file to be in place and work without any further help.
 }
