@@ -126,10 +126,15 @@ class LazyThumb extends Thumb {
     $thumbinfo['options']['destination'] = thumb::$defaults['destination'];
 
     if (!is_null($thumbinfo['source']['page'])) {
-      // If the image came from a page, validate try to relocate
-      // it to get the right path.
-      $page = page($thumbinfo['source']['page']);
-      $image = $page->image($thumbinfo['source']['filename']);
+      // Try to relocate the image and get it’s association with the original
+      // parent page or site
+      if ($thumbinfo['source']['page'] === '') {
+        // Image was uploaded to the "content" directory
+        $image = site()->image($thumbinfo['source']['filename']);
+      } else {
+        // Image belongs to a specific page
+        $image = page($thumbinfo['source']['page'])->image($thumbinfo['source']['filename']);
+      }
       
       if(!$image) {
         // If source image does not exist any more, remove the jobfile.
