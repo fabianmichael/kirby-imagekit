@@ -1,12 +1,12 @@
+<img src="https://fabianmichael.de/shared/imagekit-logo-github.png" alt="Imagekit Logo" width="120" height="120" />
+
 # ImageKit for Kirby CMS
 
 ImageKit provides an asynchronous thumbnail API for [Kirby](http://getkirby.com).
 
-**WARNING:** This software is currently available as a beta version. Be careful, if you use it in production, as it may still contain some bugs.
+**NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#license) section of this document.
 
-**NOTE:** This is not be a free plugin. In order to use it on a production server, you will need to buy a license once the final version is released. I’m still thinking about how much to charge for a license, but it will be easily affordable for anyone who can afford a Kirby license.
-
-Current version: `1.0.0-beta2`
+Current version: `1.0.0`
 
 ***
 
@@ -19,7 +19,7 @@ Current version: `1.0.0-beta2`
 - **Error-Handling:** ImageKit let’s you know, when errors occur during thumbnail creation *(experimental)*.
 - **Self-Hosted:** Unlike many other image-resizing-services, ImageKit just sits in Kirby’s plugin directory, so you have everything under control without depending on external providers. No monthly fees. No visitor data is exposed to external companies. tl;dr: No bullshit!
 
-The plugin will be extended by a responsive image component in the future with support for lazy-loading and placeholders (like on <https://fabianmichael.de>). These features will be released as a separate plugin. You can get a discount, when you buy both plugins as a bundle.
+The plugin will be extended by a responsive image component in the future with support for lazy-loading and placeholders (like on <https://fabianmichael.de>). Those features will be released as a separate plugin. You can get a discount, when you buy both plugins as a bundle.
 
 <img src="https://shared.fabianmichael.de/imagekit-widget-v2.gif" alt="ImageKit’s Dashboard Widget" width="460" height="231" />
 
@@ -68,7 +68,7 @@ Rather than doing the expensive task of image conversion on page load (default b
 
 ### Discovery mode
 
-If the `imagekit.widget.discover` (automatic indexing) option is active, the widget will not only scan your thumbs folder for pending thumbnails, but will also make a HTTP request to every single page of your Kirby installation to execute every page‘s template code once. This feature also works with pagination. Just make sure, that the pagination links have `rel` attributes of either `'next'` or `'prev'`. This way, ImageKit can scan through paginated pages.
+If the `imagekit.widget.discover` *(automatic indexing)* option is active, the widget will not only scan your thumbs folder for pending thumbnails, but will also make a HTTP request to every single page of your Kirby installation to execute every page‘s template code once. This feature also works with pagination and/or prev- and next links. Just make sure, that the pagination links have `rel` attributes of either `'next'` or `'prev'`. This way, ImageKit can scan through paginated pages.
 
 ```
 <link href="<?= $pagination->prevPageURL() ?>" rel="prev">
@@ -77,11 +77,13 @@ If the `imagekit.widget.discover` (automatic indexing) option is active, the wid
 <a href="<?= $pagination->nextPageURL() ?>" rel="next">Next page</a>
 ```
 
+This currently works by using PHP’s DOM interface (`DOMDocument`), so if your HTML contains a lot of errors, this might fail. If you are experiencing any trouble with this feature, please report a bug so we can make it works with your project.
+
 ## Configuration
 
 | Option              | Default value | Description                                                                                                                                                                                                                                                     |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| imagekit.license    | `'BETA'`      | Enter your license code here, once the final version of the plugin has been released.                                                                                                                                                                          |
+| imagekit.license    | `'BETA'`      | Enter your license code here, once your site goes live.<br>→ [Buy a license](http://sites.fastspring.com/fabianmichael/product/imagekit)                                                                                                                                                                       |
 | imagekit.lazy       | `true`        | Set to `false` to temporary disable asynchronous thumbnail generation. This will restore the default behavior of Kirby.                                                                                                                                         |
 | imagekit.complain   | `true`        | If enabled, ImageKit will try to return a placeholder showing an error symbol whenever thumbnail creation fails. If you don’t like this behavior, you can turn this feature off and ImageKit will fail silently.
 | imagekit.widget     | `true`        | Enables the dashboard widget.                                                                                                                                                                                                                                   |
@@ -98,11 +100,9 @@ If the `imagekit.widget.discover` (automatic indexing) option is active, the wid
 
 ## License
 
-ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license.
+ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to [buy a license](http://sites.fastspring.com/fabianmichael/product/imagekit). See `license.md` for terms and conditions.
 
-Licenses can be obtained, once the first stable version (i.e. 1.0.0) is released.
-
-However, even with a valid license, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
+However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
 ## Credits
 

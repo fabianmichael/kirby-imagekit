@@ -16,6 +16,5 @@ return [
   'imagekit.widget.progress.creating'   => 'Creating thumbnails …',
   'imagekit.widget.progress.cancelling' => 'Cancelling …',
   
-  'imagekit.widget.license.trial'       => 'ImageKit is running in trial mode. Please support the plugin and buy a license.',
-  'imagekit.widget.license.beta'        => 'A pre-release version of the ImageKit plugin is running on this server. Please remember to buy a license when the final version is released.',
+  'imagekit.widget.license.trial'       => 'ImageKit is running in trial mode. Please support the development of this plugin and <a href="%s" target="_blank">buy a license</a>. If you already have a license key, please add it to your <code title="site/config/config.php" style="border-bottom: 1px dotted; font-family: monospace;">config.php</code> file.',
 ];

@@ -20,20 +20,12 @@
   
 </p>
 
-<?php 
-$license = imagekit()->license();
-if ($license->type === 'trial' || $license->type === 'beta'): ?>
+<?php if (imagekit()->license()->type === 'trial'): ?>
   <p class="debug-warning marginalia" style="position: relative; padding-left: 30px; font-size: 14px; padding-top: 12px;">
     <span class="fa fa-exclamation-triangle" style="position: absolute; top: 15px; left: 5px; font-size: 14px;"></span>
-    <?php
-    if($license->type === 'beta'):
-      echo $translations->get('imagekit.widget.license.beta');
-    else:
-      echo $translations->get('imagekit.widget.license.trial');
-    endif;
-    ?>
+    <?php printf($translations->get('imagekit.widget.license.trial'), 'http://sites.fastspring.com/fabianmichael/product/imagekit') ?>
   </p>
-<?php endif; ?>
+<?php endif ?>
 
 <script>
 <?php

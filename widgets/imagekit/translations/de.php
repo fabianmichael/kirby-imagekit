@@ -16,6 +16,5 @@ return [
   'imagekit.widget.progress.creating'   => 'Erstelle thumbnails …',
   'imagekit.widget.progress.cancelling' => 'Vorgang wird abgebrochen …',
   
-  'imagekit.widget.license.trial'       => 'ImageKit läuft ohne gültige Lizenz! Bitte unterstütze die Entwicklung des plugins und kaufe jetzt eine Lizenz. Wenn Du bereits einen Lizenzschlüssel hast, füge ihn zur Config-Datei hinzu: (link: {docs} text: site/config/config.php)',
-  'imagekit.widget.license.beta'        => 'Auf diesem Server läuft eine Beta-Version des ImageKit-Plugins. Bitte erwerbe eine Lizenz, sobald die finale Version veröffentlicht ist.',
+  'imagekit.widget.license.trial'       => 'ImageKit läuft im Testmodus. Bitte unterstützen Sie die Entwicklung des plugins und <a href="%s" target="_blank">kaufen Sie eine Lizenz</a>. Wenn Sie bereits einen Lizenzschlüssel haben, tragen Sie ihn bitte in die Datei <code title="site/config/config.php" style="border-bottom: 1px dotted; font-family: monospace;">config.php</code> ein.',
 ];

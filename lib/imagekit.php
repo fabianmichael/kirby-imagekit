@@ -11,7 +11,7 @@ use Str;
  */
 class ImageKit {
   
-  protected $version = '1.0.0-beta2';
+  protected $version = '1.0.0';
   
   public static function instance() {
     static $instance;
@@ -41,7 +41,7 @@ class ImageKit {
      * Fabian
      */
     
-    if (str::startsWith($key, 'IMGKT1') && str::length(39) === 39) {
+    if (str::startsWith($key, 'IMGKT1') && str::length($key) === 39) {
       $type = 'ImageKit 1';
     } else {
       $key = null;
