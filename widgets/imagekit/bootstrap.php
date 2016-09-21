@@ -16,5 +16,6 @@ load([
 ], __DIR__);
 
 // Initialize Widget and API
+
 Widget::instance();
 API::instance();

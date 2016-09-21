@@ -8,9 +8,10 @@ use Str;
 
 
 /**
- * An extended version of Kirby’s thumb class which is able to throw an error,
- * if thumbs are resized with the GD Library and PHP’s memory limit is exceeded
- * or if thumbnail creation failed for another reason. 
+ * An extended version of Kirby’s thumb class which is able
+ * to throw an error, if thumbs are resized with the
+ * GD Library and PHP’s memory limit is exceeded or if
+ * thumbnail creation failed for another reason. 
  */
 class ComplainingThumb extends Thumb {
   
@@ -24,6 +25,8 @@ class ComplainingThumb extends Thumb {
   private static $_targetDimensions;
   private static $_sendError      = false;
 
+  private static $_reservedMemory;
+
   public static function setErrorFormat($format = null) {
     if (!is_null($format)) static::$_errorFormat = $format;
     static::$_errorFormat;
@@ -36,7 +39,8 @@ class ComplainingThumb extends Thumb {
   public function create() {
     
     if(!static::$_sendError) {
-      // Don’t setup a error handlers, if complaining is not enabled.
+      // Don’t setup a error handlers, if complaining is
+      // not enabled.
       return parent::create();
     }
     
@@ -59,6 +63,13 @@ class ComplainingThumb extends Thumb {
   }
   
   private function prepareErrorHandler() {
+
+    // Allowcate one additional megabyte of memory to make
+    // catching of out of memory errors more reliable.
+    // The variable’s content is deleted in the shutdown
+    // function to have more available memory to prepare an
+    // error.
+    static::$_reservedMemory = str_repeat('#', 1024 * 1024);
     
     $dimensions = $this->source->dimensions();
     $filename   = str_replace(kirby()->roots()->index() . DS, '', $this->source->root());
@@ -69,10 +80,10 @@ class ComplainingThumb extends Thumb {
     $targetDimensions = $asset->dimensions();
     
     static::$_errorData = [
-      'file'   => $filename,
-      'width'  => $dimensions->width,
-      'height' => $dimensions->height,
-      'size'   => $this->source->size(),
+      'file'         => $filename,
+      'width'        => $dimensions->width,
+      'height'       => $dimensions->height,
+      'size'         => $this->source->size(),
       'targetWidth'  => $targetDimensions->width,
       'targetHeight' => $targetDimensions->height,
     ];
@@ -84,9 +95,9 @@ class ComplainingThumb extends Thumb {
     ini_set('display_errors', 0);
     
     if (!static::$_errorListening) {
-      // As of PHP 7.0 there is not way of de-registering a shutdown callback.
-      // So we only register it once by the first time, this method is called.
-      // 
+      // As of PHP 7.0 there is not way of de-registering a
+      // shutdown callback. So we only register it once at
+      // the first time, this method is called.
       static::$_errorListening = true;
       register_shutdown_function([__CLASS__, 'shutdownCallback']);
     }
@@ -95,6 +106,10 @@ class ComplainingThumb extends Thumb {
   }
   
   private function restoreErrorHandler() {
+
+    // Delete the reserved memory, because if thumbnail
+    // creation succeeded, it is not needed any more.
+    static::$_reservedMemory = null;
     
     ini_set('display_errors', static::$_displayErrors);
     error_reporting(static::$_errorReporting);
@@ -103,7 +118,11 @@ class ComplainingThumb extends Thumb {
   }
   
   public static function shutdownCallback() {
-      
+
+    // Delete the reserved memory to have more memory for
+    // preparing an error message.
+    static::$_reservedMemory = null;
+
     $error = error_get_last();
     if(!$error) return;
     
@@ -136,16 +155,18 @@ class ComplainingThumb extends Thumb {
     
     if(static::$_errorFormat === 'image') {
       
-      // The returned error image is an SVG file, because if can be created just
-      // by joined a couple of XML tags together and is supported by every
-      // modern browser, starting with IE 9 (which is of course not modern any
-      // more …).
+      // The returned error image is an SVG file, because it
+      // can be created just by joined a couple of XML tags
+      // together and is supported by every modern browser,
+      // starting with IE 9 (which is of course not
+      // modern any more …).
       header('Content-Type: image/svg+xml');
       
-      // Although this is technically not correct, we have to send 
-      // status code 200, otherwise the images does not show up in
-      // Firefox and Safari, although it works with code 500 in Chrome and Edge.
-      // Also tested in IE 10, IE 11
+      // Although this is technically not correct, we have
+      // to send  status code 200, otherwise the images does
+      // not show up in Firefox and Safari, although it
+      // works with code 500 in Chrome and Edge. Also tested
+      // in IE 10, IE 11
       http_response_code(200);
       
       $width  = static::$_errorData['targetWidth'];

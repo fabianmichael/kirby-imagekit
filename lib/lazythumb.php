@@ -4,6 +4,7 @@ namespace Kirby\Plugins\ImageKit;
 
 use Asset;
 use Dir;
+use Error;
 use Exception;
 use F;
 use File;
@@ -14,8 +15,10 @@ use Thumb;
 use RecursiveIteratorIterator as Walker;
 use RecursiveDirectoryIterator as DirWalker;
 
+
 /**
- * Extended version of Kirby’s thumb class for creating “lazy” thumbnails.
+ * Extended version of Kirby’s thumb class for
+ * creating “lazy” thumbnails.
  */
 class LazyThumb extends Thumb {
   
@@ -75,7 +78,8 @@ class LazyThumb extends Thumb {
       $pageid = $this->source->page()->id();
       $dir    = null;
     } else {
-      // Source file is an outlaw, hiding somewhere else in the file tree
+      // Source file is an outlaw, hiding somewhere else in
+      // the file tree
       $pageid = null;
       $dir    = substr($this->source->root(), str::length(kirby()->roots->index));
       $dir    = pathinfo(ltrim($dir , DS), PATHINFO_DIRNAME);
@@ -91,8 +95,9 @@ class LazyThumb extends Thumb {
       'options'    => $this->options,
     ];
     
-    // Remove `destionation` option before export, because closures cannot
-    // be exported and this option is a closure by default.
+    // Remove `destination` option before export, because
+    // closures cannot be exported and this option is a
+    // closure by default.
     unset($options['options']['destination']);
     
     $export = "<?php\nreturn " . var_export($options, true) . ';';
@@ -113,21 +118,23 @@ class LazyThumb extends Thumb {
     $jobfile = static::jobfile($path);
     
     if(!$thumbinfo = @include($jobfile)) {
-      // Abort, if there is no matching jobfile for the requested thumb.
+      // Abort, if there is no matching jobfile for the
+      // requested thumb.
       return false;
     }
     
-    // This option is a closure by default, which cannot be restored.
-    // Currently, we can only restore it by overriding it the the default
-    // option of the thumb class. So this does not work, when a custom 
-    // 'destination' option was set for this particular thumbnail or
-    // the option has been changed between jobfile creation and execution
-    // of this method.
+    // This option is a closure by default, which cannot be
+    // restored. Currently, we can only restore it by
+    // overriding it the the default option of the thumb
+    // class. So this does not work, when a custom 
+    // 'destination' option was set for this particular
+    // thumbnail or the option has been changed between
+    // jobfile creation and execution of this method.
     $thumbinfo['options']['destination'] = thumb::$defaults['destination'];
 
     if (!is_null($thumbinfo['source']['page'])) {
-      // Try to relocate the image and get it’s association with the original
-      // parent page or site
+      // Try to relocate the image and get it’s association
+      // with the original parent page or site
       if ($thumbinfo['source']['page'] === '') {
         // Image was uploaded to the "content" directory
         $image = site()->image($thumbinfo['source']['filename']);
@@ -137,13 +144,14 @@ class LazyThumb extends Thumb {
       }
       
       if(!$image) {
-        // If source image does not exist any more, remove the jobfile.
+        // If source image does not exist any more, remove
+        // the jobfile.
         f::remove($jobfile);
         return false;
       }
     } else {
-      // If the image does not belong to a specific page, just
-      // use an `Asset` as source.
+      // If the image does not belong to a specific page,
+      // just use an `Asset` as source.
       $image = new Asset($thumbinfo['source']['dir'] . DS . $thumbinfo['source']['filename']);
       
       if(!$image->exists()) {
@@ -152,17 +160,18 @@ class LazyThumb extends Thumb {
       }
     }
     
-    // override url and root of the thumbs directory to the current values.
-    // This prevents ImageKit from failing after your Kirby installation
-    // has been moved.
+    // override url and root of the thumbs directory to the
+    // current values. This prevents ImageKit from failing
+    // after your Kirby installation has been moved.
     $thumbinfo['options']['ul']   = kirby()->urls->thumbs();
     $thumbinfo['options']['root'] = kirby()->roots->thumbs();
     
     // Finally execute job file by creating a thumb
     $thumb = new ComplainingThumb($image, $thumbinfo['options']);
     
-    if (f::exists($thumb->destination()->root)) {
-      // Delete job file if thumbnail has been generated successfully
+    if(!kirby()->option('imagekit.debug') && f::exists($thumb->destination()->root)) {
+      // Delete job file if thumbnail has been generated
+      // successfully and we’re not in debug mode.
       f::remove($jobfile);
     }
     
@@ -170,8 +179,9 @@ class LazyThumb extends Thumb {
   } 
 
   /**
-   * Returns the path a thumbnails jobfile. The jobfile contains instructions
-   * about how to create the actual thumbnail.
+   * Returns the path a thumbnails jobfile. The jobfile
+   * contains instructions about how to create the actual
+   * thumbnail.
    *
    * @return string A thumbnail’s jobfile.
    */
@@ -180,8 +190,9 @@ class LazyThumb extends Thumb {
   }
   
   /**
-   * Returns all pending thumbnails, i.e. thumbnails that have not been created
-   * yet. This works by looking for jobfiles in the thumbs directory.
+   * Returns all pending thumbnails, i.e. thumbnails that
+   * have not been created yet. This works by looking for
+   * jobfiles in the thumbs directory.
    *
    * @return array A list of all pending thumbnails
    */
@@ -205,10 +216,11 @@ class LazyThumb extends Thumb {
   }
 
   /**
-   * Walks the thumbs directory, searches for image files and returns a list of
-   * those.
+   * Walks the thumbs directory, searches for image files
+   * and returns a list of those.
    *
-   * @return array A list of all websafe image files within the thumbs directory.
+   * @return array A list of all websafe image files within
+   *               the thumbs directory.
    */
   public static function created() {
     
@@ -226,9 +238,11 @@ class LazyThumb extends Thumb {
   }
   
   /**
-   * Get the actual status of generated and pending thumbs on your site.
+   * Get the actual status of generated and pending thumbs
+   * on your site.
    *
-   * @return array An associative array containing stats about your thumbs folder.
+   * @return array An associative array containing stats
+   *               about your thumbs folder.
    */
   public static function status() {
     return [
@@ -240,7 +254,8 @@ class LazyThumb extends Thumb {
   /**
    * Clears the entire thumbs directory.
    * 
-   * @return boolen `true` if cleaning was successfull, otherwise `false`.
+   * @return boolen `true` if cleaning was successfull,
+   *                otherwise `false`.
    */
   public static function clear() {
     return dir::clean(kirby()->roots()->thumbs());

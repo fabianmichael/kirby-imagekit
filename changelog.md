@@ -1,5 +1,9 @@
 # ImageKit Changelog
 
+- `1.1.0-beta1` (2016/09/21)
+  - **Optimization:** ImageKit is now capable of applying several optimizations to your images, using popular command-line tools.
+  - **Better Error Handling:** The `ComplaingThumb` class now handles out-of-memory errors more reliable.
+
 - `1.0.0` (2016/08/19)
   - **Release!** Initial version of the plugin is now final. Licenses are availabel at my [store](http://sites.fastspring.com/fabianmichael/product/imagekit).
   - **Bugfix:** Fix handling of images that are located at the top-level of the `content` directory.

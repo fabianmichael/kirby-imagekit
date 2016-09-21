@@ -13,13 +13,15 @@ use Str;
 use Thumb;
 use Url;
 
+
 /**
- * An extended version of Kirby’s Asset class, which also works with
- * files that do not exist yet.
+ * An extended version of Kirby’s Asset class, which also
+ * works with files that do not exist yet.
  */
 class ProxyAsset extends Asset {
   
-  // Thumb parameters like you would path to the `Thumb` class’ constructor
+  // Thumb parameters like you would path to the `Thumb`
+  // class’ constructor
   protected $options   = [];
   
   // Will be changed to true if thumbnail has been generated
@@ -31,20 +33,22 @@ class ProxyAsset extends Asset {
    * @param Media|string $path
    */
   public function __construct($path) {
-    // This constructor function mimics the behavior of both Asset’s and Media’s
-    // constructors. Because `realpath()` (used in Media’s constructor) does not
-    // work with non-existing files, the complete constructors of both classes
-    // are redeclared here, using a different function for resolving paths of
-    // non-existing files. This constructor should always try to match the
-    // behavior of Kirby’s original Asset class.
+    // This constructor function mimics the behavior of both
+    // Asset’s and Media’s constructors. Because `realpath()`
+    // (used in Media’s constructor) does not work with
+    // non-existing files, the complete constructors of both
+    // classes are redeclared here, using a different function
+    // for resolving paths of
+    // non-existing files. This constructor should always try
+    // to match the behavior of Kirby’s original Asset class.
     
     // Asset’s constructor
     $this->kirby = kirby::instance();
     
     if($path instanceof Media) {      
-      // Because “root” of non-existing files does not work, when they’re
-      // initialized as Media objects, we’ll reconstruct the file’s path from
-      // it’s URL.
+      // Because “root” of non-existing files does not work,
+      // when they’re initialized as Media objects, we’ll
+      // reconstruct the file’s path from it’s URL.
       $root = $this->kirby->roots()->index() . str_replace(kirby()->urls->index, '', $path->url());
       $url  = $path->url();
     } else {
@@ -61,9 +65,9 @@ class ProxyAsset extends Asset {
   }
   
   /**
-   * Tries to normalize a given path by resolving `..` and `.`. Tries to mimick
-   * the behavoir of `realpath()` which does not work on non-existing files.
-   * 
+   * Tries to normalize a given path by resolving `..`
+   * and `.`. Tries to mimick the behavoir of `realpath()`
+   * which does not work on non-existing files.
    * Source: http://php.net/manual/de/function.realpath.php#84012
    *
    * @param string $path
@@ -99,16 +103,18 @@ class ProxyAsset extends Asset {
   }
   
   /**
-   * Returns the dimensions of the file if possible. If the proxy asset has not
-   * been generated yet, dimensions are read from source file and then calculated
-   * according to given thumb options.
+   * Returns the dimensions of the file if possible. If the
+   * proxy asset has not been generated yet, dimensions are
+   * read from source file and then calculated according to
+   * given thumb options.
    *
    * @return Dimensions
    */
   public function dimensions() {
     
     if($this->generated) {
-      // If the thumbnail has been generated, get dimensions from thumb file.
+      // If the thumbnail has been generated, get dimensions
+      // from thumb file.
       return parent::dimensions();
     }
     
@@ -146,8 +152,9 @@ class ProxyAsset extends Asset {
   }
   
   /**
-   * Generate the actual thumbnail. This function is triggered by certain methods,
-   * which need the final thumbnail to be there for returning reasonable results.
+   * Generate the actual thumbnail. This function is triggered
+   * by certain methods, which need the final thumbnail to be
+   * there for returning reasonable results.
    */
   public function generate() {
     
@@ -155,8 +162,9 @@ class ProxyAsset extends Asset {
     
     $thumb = new Thumb($this->original, $this->options);
     
-    // Just to be sure to have all corrent data of the resulting object in place,
-    // we override this object’s properties with those of thumb’s result.
+    // Just to be sure to have all corrent data of the
+    // resulting object in place, we override this object’s
+    // properties with those of thumb’s result.
     $this->reset();
     foreach(['url', 'root', 'filename', 'name', 'extension', 'content'] as $prop) {  
       $this->$prop = $thumb->result->$prop;
@@ -251,11 +259,10 @@ class ProxyAsset extends Asset {
     $this->generate();
     return parent::imagesize();
   }
-  
-  
-    // Methods that don’t need to be overloaded:
-    // thumb, resize, crop, width, height, ratio, scale, bw, blur
-    // => thumb() fails automatically, if called on a (Proxy)Asset with original set.
-    // isThumb, isWebsafe
-    // => Don’t need the result file to be in place and work without any further help.
+   
+  // Methods that don’t need to be overloaded:
+  // thumb, resize, crop, width, height, ratio, scale, bw, blur
+  // => thumb() fails automatically, if called on a (Proxy)Asset with original set.
+  // isThumb, isWebsafe
+  // => Don’t need the result file to be in place and work without any further help.
 }

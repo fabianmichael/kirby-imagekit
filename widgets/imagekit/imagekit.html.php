@@ -35,6 +35,10 @@ echo 'window.ImageKitSettings = ' . json_encode([
   'discover'     => kirby()->option('imagekit.widget.discover'),
 ]) . ';';
 
-echo f::read(__DIR__ . '/assets/js/dist/widget.min.js');
+if(kirby()->option('imagekit.debug')) {
+  echo f::read(__DIR__ . '/assets/js/src/widget.js');
+} else {
+  echo f::read(__DIR__ . '/assets/js/dist/widget.min.js');
+}
 ?>
 </script>

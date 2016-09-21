@@ -8,9 +8,16 @@ load([
   'kirby\\plugins\\imagekit\\lazythumb'        => 'lib' . DS . 'lazythumb.php',
   'kirby\\plugins\\imagekit\\complainingthumb' => 'lib' . DS . 'complainingthumb.php',
   'kirby\\plugins\\imagekit\\proxyasset'       => 'lib' . DS . 'proxyasset.php',
+  'kirby\\plugins\\imagekit\\optimizer'        => 'lib' . DS . 'optimizer.php',
+  
+  // Only the base optimizer is autoloaded, all other
+  // optimizers are loaded by scanning the directory.
+  'kirby\\plugins\\imagekit\\optimizer\\base'  => 'lib' . DS . 'optimizer' . DS . 'base.php',
 ], __DIR__);
 
 require_once __DIR__ . DS . 'helpers.php';
+
+// Initialize the plugin
 
 $kirby = kirby();
 
