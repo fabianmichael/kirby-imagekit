@@ -89,7 +89,7 @@ This currently works by using PHP’s DOM interface (`DOMDocument`), so if your 
 
 | Option              | Default value | Description                                                                                                                                                                                                                                                     |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `imagekit.license`    | `''`          | Enter your license code here, once your site goes live.<br>→ [Buy a license](http://sites.fastspring.com/fabianmichael/product/imagekit)                                                                                                                                                                       |
+| `imagekit.license`    | `''`          | Enter your license code here, once your site goes live.<br>[<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit)                                                                                                                                                                       |
 | `imagekit.lazy`       | `true`        | Set to `false` to temporary disable asynchronous thumbnail generation. This will restore the default behavior of Kirby.                                                                                                                                         |
 | `imagekit.complain`   | `true`        | If enabled, ImageKit will try to return a placeholder showing an error symbol whenever thumbnail creation fails. If you don’t like this behavior, you can turn this feature off and ImageKit will fail silently.
 | `imagekit.widget`     | `true`        | Enables the dashboard widget.                                                                                                                                                                                                                                   |
@@ -130,7 +130,7 @@ Overriding global settings might become useful, if you want to apply lossless op
 
 Mozjpeg is an improved JPEG encoder that produces much smaller images at a similar perceived quality as those created by GD Library, ImageMagick, or Photoshop. I really recommend to try out this optimizer, because it can significantly reduce the size of your thumbnails.
 
-→ [Download mozjpeg](https://github.com/mozilla/mozjpeg) 
+[<img src="https://img.shields.io/badge/%E2%80%BA-Download%20mozjpeg-lightgrey.svg" alt="Download mozjpeg">](https://github.com/mozilla/mozjpeg) 
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
@@ -144,7 +144,7 @@ Mozjpeg is an improved JPEG encoder that produces much smaller images at a simil
 
 Jpegtran applies lossless compression to your thumbnails by optimizing the JPEG data and stripping out metadata like EXIF. If you use mozjpeg, there is no reason to also use jpegtran, as my tests did not show any benefit in thumbnail size, when both are used together.
 
-→ [Download jpegtran](http://jpegclub.org/jpegtran/)
+[<img src="https://img.shields.io/badge/%E2%80%BA-Download%20jpegtran-lightgrey.svg" alt="Download jpegtran">](http://jpegclub.org/jpegtran/)
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
@@ -157,7 +157,7 @@ Jpegtran applies lossless compression to your thumbnails by optimizing the JPEG 
 
 Pngquant performs lossy optimization on PNG images by converting 24-bit images to indexed color (8-bit), while alpha-transparency is kept. The files can be displayed in all modern browsers and this kind of lossy optimization works great for most non-photographic images and screenshots. You may notice some color shifts on photographic images with a lot of different colors (you usually should not use PNG for displaying photos on the web anyway …).
 
-→ [Download pngquant](https://pngquant.org/)
+[<img src="https://img.shields.io/badge/%E2%80%BA-Download%20pngquant-lightgrey.svg" alt="Download pngquant">](https://pngquant.org/)
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
@@ -172,7 +172,7 @@ Pngquant performs lossy optimization on PNG images by converting 24-bit images t
 
 Optipng performs lossless optimizations on PNG images by stripping meta data and optimizing the PNG data itself.
 
-→ [Download optipng](http://optipng.sourceforge.net/)
+[<img src="https://img.shields.io/badge/%E2%80%BA-Download%20optipng-lightgrey.svg" alt="Download optipng">](http://optipng.sourceforge.net/)
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
@@ -185,7 +185,7 @@ Optipng performs lossless optimizations on PNG images by stripping meta data and
 
 Gifsicle optimizes the data of GIF images. Especially for animations, using this optimizer can lead to a great improvement in file size, but can also take very long for large animations. Static GIF images will also benefit from using Gifsicle.
 
-→ [Download gifsicle](https://www.lcdf.org/gifsicle/) 
+[<img src="https://img.shields.io/badge/%E2%80%BA-Download%20gifsicle-lightgrey.svg" alt="Download gifsicle">](https://www.lcdf.org/gifsicle/) 
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
@@ -207,7 +207,9 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 
 ## License
 
-ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to [buy a license](http://sites.fastspring.com/fabianmichael/product/imagekit). See `license.md` for terms and conditions.
+ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license. See `license.md` for terms and conditions.
+
+<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
