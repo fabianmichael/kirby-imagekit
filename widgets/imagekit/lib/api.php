@@ -44,7 +44,7 @@ class API {
   
   protected function authorize() {
     $user = kirby()->site()->user();
-    if (!$user || !$user->hasPermission('panel.access')) {
+    if (!$user || !$user->hasPanelAccess()) { // !$user->hasPermission('panel.access')
       return Response::error('Only logged-in users can use the ImageKit widget. Please reload this page to get show the login form.', 401);
     }
   }
