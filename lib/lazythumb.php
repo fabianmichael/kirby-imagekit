@@ -254,7 +254,7 @@ class LazyThumb extends Thumb {
   /**
    * Clears the entire thumbs directory.
    * 
-   * @return boolen `true` if cleaning was successfull,
+   * @return boolen `true` if cleaning was successful,
    *                otherwise `false`.
    */
   public static function clear() {
