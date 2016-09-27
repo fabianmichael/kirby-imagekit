@@ -122,7 +122,7 @@ $page->image()->thumb([
 ]);
 ```
 
-Overriding global settings might become useful, if you want to apply lossless optimization for some images and lossy optimization for others. A typical use-case would be a photo gallery, with both small thumbnail files you want to compress as much as possible using `mozjpeg` and an enlarged view, where image quality is more important. For the latter case, you might want to use `jpegtran` for lossless optimization instead of `mozjpeg`, which produces way smaller images by applying stronger lossless compression.
+Overriding global settings might become useful, if you want to apply lossless optimization for some images and lossy optimization for others. A typical use-case would be a photo gallery with lots of small preview images on an index page, where you want to squeeze the last byte out of your thumbnails using `mozjpeg`. For the enlarged view of a photo, image quality might be more important than filesize, so you might prefer `jpegtran` over `mozjpeg` for lossless optimization.
 
 ### Available Optimizers
 
