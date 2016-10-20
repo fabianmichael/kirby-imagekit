@@ -12,6 +12,35 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
 
 <img src="https://shared.fabianmichael.de/imagekit-widget-v2.gif" alt="ImageKit’s Dashboard Widget" width="460" height="231" />
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [1 Key Features](#1-key-features)
+- [2 Download and Installation](#2-download-and-installation)
+  - [2.1 Requirements](#21-requirements)
+  - [2.2 Kirby CLI](#22-kirby-cli)
+  - [2.3 Git Submodule](#23-git-submodule)
+  - [2.4 Copy and Paste](#24-copy-and-paste)
+- [3 Usage](#3-usage)
+  - [3.1 CSS and JavaScript Setup](#31-css-and-javascript-setup)
+- [4 Configuration](#4-configuration)
+  - [4.1 Localization for Multilingual Sites](#41-localization-for-multilingual-sites)
+  - [4.2 General Options](#42-general-options)
+  - [4.3 Smart Quotes](#43-smart-quotes)
+  - [4.4 Smart Character Replacements](#44-smart-character-replacements)
+  - [4.5 Smart Spacing](#45-smart-spacing)
+  - [4.6 Character Styling and Hanging Punctuation](#46-character-styling-and-hanging-punctuation)
+  - [4.7 Hyphenation](#47-hyphenation)
+  - [4.8 CSS Classes](#48-css-classes)
+- [5 Recommended Settings for Different Languages](#5-recommended-settings-for-different-languages)
+- [6 License](#6-license)
+- [7 Credits](#7-credits)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+***
+
 ## Key Features
 
 - **Image-resizing on demand:** Kirby’s built-in thumbnail engine resizes images on-the-fly while executing the code in your template files. On image-heavy pages, the first page-load can take very long or even exceed the maximum execution time of PHP. ImageKit resizes images only on-demand as soon as they are requested by the client.
@@ -32,8 +61,9 @@ The plugin will be extended by a responsive image component in the future with s
 
 ### Requirements
 
--	PHP 5.4.0+
+-	PHP 5.4.0+ (With *libxml* if you’re using discovery mode. This extension is usually installed on most hosting providers.)
 -	Kirby 2.3.0+
+- GD Library for PHP or ImageMagick command-line tools to resize images.
 - Tested on Apache 2 with mod_rewrite (but it should also work with other servers like nginx)
 - Permission to install and execute several command-line utilities on your server, if your want to use the optimization feature.
 
@@ -83,7 +113,7 @@ If the `imagekit.widget.discover` *(automatic indexing)* option is active, the w
 <a href="<?= $pagination->nextPageURL() ?>" rel="next">Next page</a>
 ```
 
-This currently works by using PHP’s DOM interface (`DOMDocument`), so if your HTML contains a lot of errors, this might fail. If you are experiencing any trouble with this feature, please report a bug so we can make it works with your project.
+This currently works by using PHP’s DOM interface (`DOMDocument`), so if your HTML contains a lot of errors, this might fail. If you are experiencing any trouble with this feature, please report a bug so I can make it work with your project.
 
 ## Basic Configuration
 
@@ -106,7 +136,7 @@ As of *version 1.1*, ImageKit is also capable of optimizing thumbnails. There ar
 | Option              | Default value | Description |
 |:--------------------|:--------------|:------------|
 | `imagekit.optimize`   | `false`       | Set to `true` to enable optimization. In addition, you have to configure at least one of the optimizers listed below. |
-| `imagekit.driver` | `null` | This option only needs to be set, if your Kirby installation uses a custom ImageMagick driver, that has a different name than `'im'`. If this is the case, set this value to `'im'` to tell ImageKit, that you’re using ImageMagick for thumbnail processing, as there is no other way to detect this reliably. In most cases, you can safely ignore this setting. |
+| `imagekit.driver` | `null` | This option only needs to be set, if your Kirby installation uses a custom ImageMagick driver, that has a different name than `'im'`. If this is the case, set this value to `'im'` to tell ImageKit, that you’re using ImageMagick for thumbnail processing, as there is no other way to detect this reliably. In most cases, you can safely ignore this setting.<br>*This settings does not change the thumbs driver to ImageMagick! If you want to use ImageMagick as your image processing backend, please refer to the corresponding pages in the Kirby documentation or have a look into the troubleshooting section of this document.*  |
 
 By default, all optimizers will be loaded and ImageKit checks if you have set the path to a valid binary (e.g. `imagekit.mozjpeg.bin`). If the binary is set and executable, ImageKit will then activate the optimizer automatically for supported image types. All optimizers come with a sane default configuration, but you can tweak them according to your needs.
 
@@ -134,7 +164,7 @@ Mozjpeg is an improved JPEG encoder that produces much smaller images at a simil
 
 | Option              | Default value | Possible Values | Description |
 |:--------------------|:--------------|:------------|:------------|
-| `imagekit.mozjpeg.bin`   | `null`       | — | Enter the path to mozjpeg’s encoder executable to activate this optimizer.<br>*(tested with mozjpeg 3.1)* |
+| `imagekit.mozjpeg.bin`   | `null`       | — | Enter the path to mozjpeg’s encoder executable (`cjpeg`) to activate this optimizer.<br>*(tested with mozjpeg 3.1)* |
 | `imagekit.mozjpeg.quality` | `85` | `0-100` | Sets the quality level of the generated image. Choose from a scale between 0-100, where 100 is the highest quality level. The scale is not identical to that of other JPEG encoders, so you should try different settings and compare the results if you want to get the optimal results for your project.
 | `imagekit.mozjpeg.flags` | `''` | — | Use this parameter to pass additional options to the optimizer. Have a look at mozjpeg’s documentation for available flags. |
 
@@ -196,14 +226,23 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 
 ## Troubleshooting
 
+**How can I activate ImageMagick?**
+: As ImageKit acts as a proxy for Kirby’s built-in thumbnail engine, you have to activate it on your `config.php` file, just as you would do without ImageKit:
+```
+c::set('thumbs.driver','gd');
+c::set('thumbs.bin', '/usr/local/bin/convert');
+```
+&rarr; Kirby documentation for [`thumbs.driver`](https://getkirby.com/docs/cheatsheet/options/thumbs-driver) and [`thumbs.bin`](https://getkirby.com/docs/cheatsheet/options/thumbs-bin)
+*Please note, that Kirby uses the command-line version of ImageMagick, rather than its PHP extension. In order to use ImageMagick as your processing backend, the ImageMagick executable (`convert`) has to be installed on your server.*
+
 **Thumbnail creation always fails …**
-: This can happen because of several reasons. First, make sure that your thumbs folder is writable for Kirby. If you’re using the GD Library driver, make sure that PHP’s memory limit is set to a high-enough value. Increasing the memory limit allows GD to process larger source files. Or if you favor ImageMagick (I do), make sure that the path to the `convert` executable is correctly configured.
+: This may happen because of several reasons. First, make sure that your thumbs folder is writable for Kirby. If you’re using the GD Library driver, make sure that PHP’s memory limit is set to a high-enough value. Increasing the memory limit allows GD to process larger source files. Or if you favor ImageMagick (I do), make sure that the path to the `convert` executable is correctly configured.
 
 **The Discovery Feature does not work with my site:**
-: Discovery works by creating a sitemap of your entire site and then sends an HTTP request to every of those URLs to trigger rendering of every single page. When doing so, ImageKit sees everything from a logged-in user’s perspective. It tries it’s best to find pagination on pages, but it cannot create thumbnails whose are – for example – only available on a search results page, where entries are only displayed when a certain keyword was entered into a form.
+: Discovery works by creating a sitemap of your entire site and then sends an HTTP request to every of those URLs to trigger rendering of every single page. When doing so, ImageKit sees everything from a logged-in user’s perspective. It tries it’s best to find pagination on pages, but it cannot create thumbnails whose are – for example – only available on a search results page, where entries are only displayed when a certain keyword was entered into a form. Also make sure, that your Server’s PHP installation comes with `libxml`, which is used by PHP’s DOM interface.
 
 **Can I also optimize the images in my content folder?**
-: This is currently not possible, because it would need a whole UI for the admin panel and would also be very risky to apply some bulk processing on your source images without knowing the actual results of optimization. If you need optimized images in your content folder, I really recommend that you use tools like [ImageOptim](https://imageoptim.com/mac) and [ImageAlpha](https://pngmini.com/) to optimize your images prior to uploading them. This saves space on your server and also speeds up backups.
+: This is currently not possible, because it would need a whole UI for the admin panel and would also be very risky to apply some bulk processing on your source images without knowing the actual results of optimization. If you need optimized images in your content folder, I really recommend that you use tools like [ImageOptim](https://imageoptim.com/mac) and [ImageAlpha](https://pngmini.com/) to optimize your images prior to uploading them. This saves space on your server and also speeds up your backups.
 
 ## License
 
@@ -212,6 +251,10 @@ ImageKit can be evaluated as long as you want on how many private servers you wa
 [<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit)
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
+
+## Technical Support
+
+Technical support is provided via Email and on GitHub. If you’re facing any problems with running or setting up ImageKit, please send you request to [support@fabianmichael.de](mailto:support@fabianmichael.de) or [create a new issue](https://github.com/fabianmichael/kirby-imagekit/issues/new) in this GitHub respository. No representations or guarantees are made regarding the response time in which support questions are answered.
 
 ## Credits
 

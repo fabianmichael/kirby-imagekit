@@ -2,7 +2,7 @@
 
 This End User License Agreement (the "Agreement") is a binding legal agreement between you and the Fabian Michael (the "Author"). By installing or using the ImageKit Plugin (the "Software"), you agree to be bound by the terms of this Agreement. If you do not agree to the Agreement, do not download, install, or use the Software. Installation or use of the Software signifies that you have read, understood, and agreed to be bound by the Agreement.
 
-Revised on: 3 July, 2016
+Revised on: 20 October, 2016
 
 ## Usage
 
@@ -14,7 +14,7 @@ You may make copies of the Software in any machine readable form solely for back
 
 ## Technical Support
 
-Technical support is provided as described on <https://fabianmichael.de/imagekit>. No representations or guarantees are made regarding the response time in which support questions are answered.
+Technical support is provided as described on <https://github.com/fabianmichael/kirby-imagekit>. No representations or guarantees are made regarding the response time in which support questions are answered.
 
 ## Refund Policy
 
