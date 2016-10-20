@@ -30,7 +30,7 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
   - [6.1 Setup](#61-setup)
   - [6.2 Overriding Global Settings](#62-overriding-global-settings)
   - [6.3 Available Optimizers](#63-available-optimizers)
-    - [6.3.1 mozjpeg ⭐](#631-mozjpeg-%E2%AD%90)
+    - [6.3.1 mozjpeg](#631-mozjpeg)
     - [6.3.2 jpegtran](#632-jpegtran)
     - [6.3.3 pngquant](#633-pngquant)
     - [6.3.4 optipng](#634-optipng)
@@ -161,7 +161,7 @@ Overriding global settings might become useful, if you want to apply lossless op
 
 ### 6.3 Available Optimizers
 
-#### 6.3.1 mozjpeg ⭐
+#### 6.3.1 mozjpeg
 
 Mozjpeg is an improved JPEG encoder that produces much smaller images at a similar perceived quality as those created by GD Library, ImageMagick, or Photoshop. I really recommend to try out this optimizer, because it can significantly reduce the size of your thumbnails.
 
@@ -237,7 +237,7 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 c::set('thumbs.driver','gd');
 c::set('thumbs.bin', '/usr/local/bin/convert');
 ```
-&rarr; Kirby documentation for [`thumbs.driver`](https://getkirby.com/docs/cheatsheet/options/thumbs-driver) and [`thumbs.bin`](https://getkirby.com/docs/cheatsheet/options/thumbs-bin)
+&rarr; Kirby documentation for [`thumbs.driver`](https://getkirby.com/docs/cheatsheet/options/thumbs-driver) and [`thumbs.bin`](https://getkirby.com/docs/cheatsheet/options/thumbs-bin)<br>
 *Please note, that Kirby uses the command-line version of ImageMagick, rather than its PHP extension. In order to use ImageMagick as your processing backend, the ImageMagick executable (`convert`) has to be installed on your server.*
 
 **Thumbnail creation always fails …**
