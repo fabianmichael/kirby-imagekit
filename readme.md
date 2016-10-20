@@ -8,9 +8,9 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
 
 **NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#license) section of this document.
 
-***
-
 <img src="https://shared.fabianmichael.de/imagekit-widget-v2.gif" alt="ImageKit’s Dashboard Widget" width="460" height="231" />
+
+***
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -23,25 +23,28 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
   - [2.3 Git Submodule](#23-git-submodule)
   - [2.4 Copy and Paste](#24-copy-and-paste)
 - [3 Usage](#3-usage)
-  - [3.1 CSS and JavaScript Setup](#31-css-and-javascript-setup)
-- [4 Configuration](#4-configuration)
-  - [4.1 Localization for Multilingual Sites](#41-localization-for-multilingual-sites)
-  - [4.2 General Options](#42-general-options)
-  - [4.3 Smart Quotes](#43-smart-quotes)
-  - [4.4 Smart Character Replacements](#44-smart-character-replacements)
-  - [4.5 Smart Spacing](#45-smart-spacing)
-  - [4.6 Character Styling and Hanging Punctuation](#46-character-styling-and-hanging-punctuation)
-  - [4.7 Hyphenation](#47-hyphenation)
-  - [4.8 CSS Classes](#48-css-classes)
-- [5 Recommended Settings for Different Languages](#5-recommended-settings-for-different-languages)
-- [6 License](#6-license)
-- [7 Credits](#7-credits)
+- [4 How it works](#4-how-it-works)
+  - [4.1 Discovery mode](#41-discovery-mode)
+- [5 Basic Configuration](#5-basic-configuration)
+- [6 Image Optimization](#6-image-optimization)
+  - [6.1 Setup](#61-setup)
+  - [6.2 Overriding Global Settings](#62-overriding-global-settings)
+  - [6.3 Available Optimizers](#63-available-optimizers)
+    - [6.3.1 mozjpeg ⭐](#631-mozjpeg-%E2%AD%90)
+    - [6.3.2 jpegtran](#632-jpegtran)
+    - [6.3.3 pngquant](#633-pngquant)
+    - [6.3.4 optipng](#634-optipng)
+    - [6.3.5 gifsicle](#635-gifsicle)
+- [7 Troubleshooting](#7-troubleshooting)
+- [8 License](#8-license)
+- [9 Technical Support](#9-technical-support)
+- [10 Credits](#10-credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ***
 
-## Key Features
+## 1 Key Features
 
 - **Image-resizing on demand:** Kirby’s built-in thumbnail engine resizes images on-the-fly while executing the code in your template files. On image-heavy pages, the first page-load can take very long or even exceed the maximum execution time of PHP. ImageKit resizes images only on-demand as soon as they are requested by the client.
 - **Optimization:** ImageKit can utilize several command-line utilities to apply superior compression to your images. Both lossless and lossy optimizers are available. Your images look as shiny as before, but your pages will load much faster.*
@@ -57,9 +60,9 @@ The plugin will be extended by a responsive image component in the future with s
 
 ***
 
-## Download and Installation
+## 2 Download and Installation
 
-### Requirements
+### 2.1 Requirements
 
 -	PHP 5.4.0+ (With *libxml* if you’re using discovery mode. This extension is usually installed on most hosting providers.)
 -	Kirby 2.3.0+
@@ -67,7 +70,7 @@ The plugin will be extended by a responsive image component in the future with s
 - Tested on Apache 2 with mod_rewrite (but it should also work with other servers like nginx)
 - Permission to install and execute several command-line utilities on your server, if your want to use the optimization feature.
 
-### Kirby CLI
+### 2.2 Kirby CLI
 
 If you’re using the [Kirby CLI](https://github.com/getkirby/cli), you need to `cd` to the root directory of your Kirby installation and run the following command:
 
@@ -77,7 +80,7 @@ kirby plugin:install fabianmichael/kirby-imagekit
 
 This will download and copy *ImageKit* into `site/plugins/imagekit`.
 
-### Git Submodule
+### 2.3 Git Submodule
 
 To install this plugin as a git submodule, execute the following command from the root of your kirby project:
 
@@ -85,12 +88,12 @@ To install this plugin as a git submodule, execute the following command from th
 $ git submodule add https://github.com/fabianmichael/kirby-imagekit.git site/plugins/imagekit
 ```
 
-### Copy and Paste
+### 2.4 Copy and Paste
 
 1. [Download](https://github.com/fabianmichael/kirby-imagekit/archive/master.zip) the contents of this repository as ZIP-file.
 2. Rename the extracted folder to `imagekit` and copy it into the `site/plugins/` directory in your Kirby project.
 
-## Usage
+## 3 Usage
 
 Just use it like the built-in thumbnail API of Kirby. You can learn more about Kirby’s image processing capabilities in the [Kirby Docs](https://getkirby.com/docs/templates/thumbnails).
 
@@ -98,11 +101,11 @@ Due to the fact that thumbs created by ImageKit remain *virtual* until the the a
 
 If you don’t want to let the first visitors of your site need to wait for images to appear, all thumbnails on your site can be generated from ImageKit’s dashboard widget in advance.
 
-## How it works
+## 4 How it works
 
 Rather than doing the expensive task of image conversion on page load (default behavior of Kirby’s built-in thumbs API), thumbnails are stored as a »job« instead as the API is called by your template code. So they will only be generated, when a particular image size is requested by the browser. ImageKit also comes with a widget, so you can trigger creation of all thumbnails right from the panel.
 
-### Discovery mode
+### 4.1 Discovery mode
 
 If the `imagekit.widget.discover` *(automatic indexing)* option is active, the widget will not only scan your thumbs folder for pending thumbnails, but will also make a HTTP request to every single page of your Kirby installation to execute every page‘s template code once. This feature also works with pagination and/or prev- and next links. Just make sure, that the pagination links have `rel` attributes of either `'next'` or `'prev'`. This way, ImageKit can even scan through paginated pages.
 
@@ -115,7 +118,7 @@ If the `imagekit.widget.discover` *(automatic indexing)* option is active, the w
 
 This currently works by using PHP’s DOM interface (`DOMDocument`), so if your HTML contains a lot of errors, this might fail. If you are experiencing any trouble with this feature, please report a bug so I can make it work with your project.
 
-## Basic Configuration
+## 5 Basic Configuration
 
 | Option              | Default value | Description                                                                                                                                                                                                                                                     |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -126,7 +129,9 @@ This currently works by using PHP’s DOM interface (`DOMDocument`), so if your 
 | `imagekit.widget.step` | `5`           | Sets how many pending thumbnails will be generated by the widget in one step. If thumbnail generation exceeds the max execution time on your server, you should set this to a lower value. If your server is blazingly fast, you can safely increase the value. |
 | `imagekit.widget.discover` | `true`   | If enabled, the widget scans your whole site before creating thumbnails. If this feature is not compatible with your setup, disable it. It can also take very long on large site, every single page has to be rendered in order to get all pending thumbnails. In order to do this, the plugin will flush your site cache before running. |
 
-## Image Optimization
+## 6 Image Optimization
+
+### 6.1 Setup
 
 As of *version 1.1*, ImageKit is also capable of optimizing thumbnails. There are different optimizers, providing both lossless and lossy optimization. It works similar to third-party services (e.g. [TinyPNG](https://tinypng.com/), [Kraken.io](https://kraken.io/)), but on your own server. If you want to use this feature, you have to install the corresponding command-line utilities first—if they’re not already installed on your server.
 
@@ -140,7 +145,7 @@ As of *version 1.1*, ImageKit is also capable of optimizing thumbnails. There ar
 
 By default, all optimizers will be loaded and ImageKit checks if you have set the path to a valid binary (e.g. `imagekit.mozjpeg.bin`). If the binary is set and executable, ImageKit will then activate the optimizer automatically for supported image types. All optimizers come with a sane default configuration, but you can tweak them according to your needs.
 
-### Overriding Global Settings
+### 6.2 Overriding Global Settings
 
 If you need different optimization configuration settings for different images, you can override any of the settings (except for the path to an optimizers’s binary) you defined in `config.php` by passing them to the `thumb()` method. The parameter `imagekit.optimize` can also take an array of optimizers. Note, that optimizers will only become active, if the input image is in a format supported by them (e.g. If you provide a JPEG to the example below, `pngquant` will be skipped, because it can only handle PNG images.)
 
@@ -154,9 +159,9 @@ $page->image()->thumb([
 
 Overriding global settings might become useful, if you want to apply lossless optimization for some images and lossy optimization for others. A typical use-case would be a photo gallery with lots of small preview images on an index page, where you want to squeeze the last byte out of your thumbnails using `mozjpeg`. For the enlarged view of a photo, image quality might be more important than filesize, so you might prefer `jpegtran` over `mozjpeg` for lossless optimization.
 
-### Available Optimizers
+### 6.3 Available Optimizers
 
-#### mozjpeg ⭐
+#### 6.3.1 mozjpeg ⭐
 
 Mozjpeg is an improved JPEG encoder that produces much smaller images at a similar perceived quality as those created by GD Library, ImageMagick, or Photoshop. I really recommend to try out this optimizer, because it can significantly reduce the size of your thumbnails.
 
@@ -170,7 +175,7 @@ Mozjpeg is an improved JPEG encoder that produces much smaller images at a simil
 
 ℹ️ I recommend that you don’t upscale images that have been compressed by `mozjpeg`, bacause it will add a lot of artifacts to thumbnails. Those are mostly invisible when the image is viewed at full size or downscaled. But they can give your images an unpleasant look, if they’re upscaled.
 
-#### jpegtran
+#### 6.3.2 jpegtran
 
 Jpegtran applies lossless compression to your thumbnails by optimizing the JPEG data and stripping out metadata like EXIF. If you use mozjpeg, there is no reason to also use jpegtran, as my tests did not show any benefit in thumbnail size, when both are used together.
 
@@ -183,7 +188,7 @@ Jpegtran applies lossless compression to your thumbnails by optimizing the JPEG 
 | `imagekit.jpegtran.copy` | `'none'` | `'all'`, `'comments'`, `'none'` | Sets which metadata should be copied from source file. |
 | `imagekit.jpegtran.flags` | `''` | — | Use this parameter to pass additional options to the optimizer. Have a look at jpegtran’s documentation for available flags. |
 
-#### pngquant
+#### 6.3.3 pngquant
 
 Pngquant performs lossy optimization on PNG images by converting 24-bit images to indexed color (8-bit), while alpha-transparency is kept. The files can be displayed in all modern browsers and this kind of lossy optimization works great for most non-photographic images and screenshots. You may notice some color shifts on photographic images with a lot of different colors (you usually should not use PNG for displaying photos on the web anyway …).
 
@@ -198,7 +203,7 @@ Pngquant performs lossy optimization on PNG images by converting 24-bit images t
 | `imagekit.pngquant.colors` | `false` | `false`, `2`-`256`| Sets the number of colors for optimized images. Less colors mean smaller images, but also reduction of quality. |
 | `imagekit.pngquant.flags` | `''` | — | Use this parameter to pass additional options to the optimizer. Have a look at pngquant’s documentation for available flags. |
 
-#### optipng
+#### 6.3.4 optipng
 
 Optipng performs lossless optimizations on PNG images by stripping meta data and optimizing the PNG data itself.
 
@@ -211,7 +216,7 @@ Optipng performs lossless optimizations on PNG images by stripping meta data and
 | `imagekit.optipng.strip` | `'all'` | `'all'`, `false` | Strips all metadata from the PNG file. | 
 | `imagekit.optipng.flags` | `''` | — | Use this parameter to pass additional options to the optimizer. Have a look at optipng’s documentation for available flags. |
 
-#### gifsicle
+#### 6.3.5 gifsicle
 
 Gifsicle optimizes the data of GIF images. Especially for animations, using this optimizer can lead to a great improvement in file size, but can also take very long for large animations. Static GIF images will also benefit from using Gifsicle.
 
@@ -224,7 +229,7 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 | `imagekit.gifsicle.colors` | `false` | `false`, `2`-`256` | Sets the amount of colors in the resulting thumbnail. By default, color palettes are not reduced. |
 | `imagekit.gifsicle.flags` | `''` | — | Use this parameter to pass additional options to the optimizer. Have a look at gifsicle’s documentation for available flags. |
 
-## Troubleshooting
+## 7 Troubleshooting
 
 **How can I activate ImageMagick?**
 : As ImageKit acts as a proxy for Kirby’s built-in thumbnail engine, you have to activate it on your `config.php` file, just as you would do without ImageKit:
@@ -244,7 +249,7 @@ c::set('thumbs.bin', '/usr/local/bin/convert');
 **Can I also optimize the images in my content folder?**
 : This is currently not possible, because it would need a whole UI for the admin panel and would also be very risky to apply some bulk processing on your source images without knowing the actual results of optimization. If you need optimized images in your content folder, I really recommend that you use tools like [ImageOptim](https://imageoptim.com/mac) and [ImageAlpha](https://pngmini.com/) to optimize your images prior to uploading them. This saves space on your server and also speeds up your backups.
 
-## License
+## 8 License
 
 ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license. See `license.md` for terms and conditions.
 
@@ -252,10 +257,10 @@ ImageKit can be evaluated as long as you want on how many private servers you wa
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
-## Technical Support
+## 9 Technical Support
 
 Technical support is provided via Email and on GitHub. If you’re facing any problems with running or setting up ImageKit, please send you request to [support@fabianmichael.de](mailto:support@fabianmichael.de) or [create a new issue](https://github.com/fabianmichael/kirby-imagekit/issues/new) in this GitHub respository. No representations or guarantees are made regarding the response time in which support questions are answered.
 
-## Credits
+## 10 Credits
 
 ImageKit is developed and maintained by [Fabian Michael](https://fabianmichael.de), a graphic designer & web developer from Germany.
