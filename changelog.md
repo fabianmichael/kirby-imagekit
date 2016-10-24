@@ -1,5 +1,10 @@
 # ImageKit Changelog
 
+- `1.1.0-beta2`
+  - Widget API now displays more helpful errors in most situations.
+  - Widget Errors are now recoverable. You don’t have to reload the panel any more, if a server-side error occurs.
+  - Full integration with *Whoops* for error-handling.
+
 - `1.1.0-beta1` (2016/09/21)
   - **Optimization:** ImageKit is now capable of applying several optimizations to your images, using popular command-line tools.
   - **Better Error Handling:** The `ComplaingThumb` class now handles out-of-memory errors more reliable.

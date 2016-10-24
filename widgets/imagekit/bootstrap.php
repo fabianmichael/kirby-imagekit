@@ -10,12 +10,14 @@ use Exception;
 use Kirby\Plugins\ImageKit\LazyThumb;
 
 load([
-  'kirby\\plugins\\imagekit\\widget\\widget'       => 'lib' . DS . 'widget.php',
-  'kirby\\plugins\\imagekit\\widget\\translations' => 'lib' . DS . 'translations.php',
-  'kirby\\plugins\\imagekit\\widget\\api'          => 'lib' . DS . 'api.php',
+  'kirby\\plugins\\imagekit\\widget\\widget'              => 'lib' . DS . 'widget.php',
+  'kirby\\plugins\\imagekit\\widget\\translations'        => 'lib' . DS . 'translations.php',
+  'kirby\\plugins\\imagekit\\widget\\api'                 => 'lib' . DS . 'api.php',
+  'kirby\\plugins\\imagekit\\widget\\apicrawlerresponse'  => 'lib' . DS . 'apicrawlerresponse.php',
+  'kirby\\plugins\\imagekit\\widget\\apiexception'        => 'lib' . DS . 'apiexception.php',
 ], __DIR__);
 
-// Initialize Widget and API
 
+// Initialize Widget and API
 Widget::instance();
 API::instance();

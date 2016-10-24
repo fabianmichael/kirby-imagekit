@@ -3,9 +3,14 @@
 namespace Kirby\Plugins\ImageKit\Widget;
 
 use Response;
+use Exception;
 
 use Kirby\Plugins\ImageKit\LazyThumb;
 use Kirby\Plugins\ImageKit\ComplainingThumb;
+
+use Whoops\Handler\Handler;
+use Whoops\Handler\CallbackHandler;
+
 
 class API {
   
@@ -14,6 +19,28 @@ class API {
   public static function instance() {
     static $instance;
     return $instance ?: $instance = new static();
+  }
+
+  protected function registerErrorHandler() {
+    
+    $kirby   = $this->kirby;
+    $handler = new CallbackHandler(function($exception, $inspector, $run) use($kirby) {
+        die("(t)error!");
+        echo response::json([
+          'status'  => 'error',
+          'code'    => $exception->getCode(),
+          'message' => 'this is a message', // $exception->getMessage() . "bla"
+        ], 500);
+      return Handler::QUIT;
+    });
+    //error_log('11111111');
+    // $this->kirby->errorHandling->whoops
+    //   ->unregister()
+    //   ->clearHandlers()
+    //   ->pushHandler($handler)
+    //   ->register();
+    print_r($this->kirby->errorHandling->whoops->getHandlers());
+    exit;
   }
   
   protected function __construct() {
@@ -24,7 +51,8 @@ class API {
     $this->kirby->set('route', [
       'pattern' => 'plugins/imagekit/widget/api/(:any)',
       'action'  => function($action) use ($self) {
-        
+        $this->registerErrorHandler();
+
         if($error = $this->authorize()) {
           return $error;
         }
@@ -32,59 +60,35 @@ class API {
         if(method_exists($self, $action)) {
           return $this->$action();
         } else {
-          return Response::error('Invalid plugin action. The action "' . html($action) . '" is not defined.');
+          throw new APIException('Invalid plugin action. The action "' . html($action) . '" is not defined.');
         }
       },
     ]);
     
     if(isset($_SERVER['HTTP_X_IMAGEKIT_INDEXING'])) {
-      $this->indexRequest();
+      $this->handleCrawlerRequest();
     }
   }
   
   protected function authorize() {
     $user = kirby()->site()->user();
     if (!$user || !$user->hasPanelAccess()) {
-      return Response::error('Only logged-in users can use the ImageKit widget. Please reload this page to get show the login form.', 401);
+      throw new APIException('Only logged-in users can use the ImageKit widget. Please reload this page to get show the login form.');
+      //return Response::error('', 401);
     }
   }
   
-  protected function indexRequest() {
+  protected function handleCrawlerRequest() {
     
     if($error = $this->authorize()) {
       return $error;
-    }    
-      
-    ob_start(function($text) {
-      $links = [];
-      
-      try {
-        $doc = new \DOMDocument();
-        libxml_use_internal_errors(true);
-        $doc->loadHTML($text);
-        libxml_clear_errors();
-        
-        $elements = array_merge(
-          iterator_to_array($doc->getElementsByTagName('a')),
-          iterator_to_array($doc->getElementsByTagName('link'))
-        );
-        
-        foreach ($elements as $elm) {
-          $rel = $elm->getAttribute("rel");
-          if($rel === 'next' || $rel === 'prev') {
-            $links[] = $elm->getAttribute('href');
-          }
-        }
-      } catch(Exception $e) {
-        // fail silently is the dom parser throws an error.
-      }
-      
-      return response::success(true, [
-        'links'  => array_unique($links),
-        'status' => lazythumb::status(),
-      ]);
-      
-    });
+    }
+
+    if($this->kirby->option('representations.accept')) {
+      throw new APIException('ImageKit’s discover mode does currently not work, when the <code>representations.accept</code> setting is turned on. Please disable either this setting or disable <code>imagekit.widget.discover</code>.');
+    } 
+
+    kirby()->set('component', 'response', '\\kirby\\plugins\\imagekit\\widget\\apicrawlerresponse');
   }
   
   public function status() {

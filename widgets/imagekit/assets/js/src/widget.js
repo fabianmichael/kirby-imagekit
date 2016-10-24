@@ -14,10 +14,10 @@
   function arrayUnique(array) {
     var a = array.concat();
     for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
-        }
+      for(var j=i+1; j<a.length; ++j) {
+        if(a[i] === a[j])
+          a.splice(j--, 1);
+      }
     }
     return a;
   }
@@ -110,12 +110,13 @@
       doCreate();
     }
     
-    function index(step, complete) {
+    function index(step, complete, error) {
       reset();
       start(ACTION_INDEX);
           
       step      = step || function(){};
       complete  = complete || function(){};
+      error     = error || function(){};
       
       api(ACTION_INDEX, function (response) {
         var i = 0;
@@ -139,6 +140,9 @@
                 triggerPageLoad();
               }
             },
+            error: function(response) {
+              error(response.responseJSON);
+            }
           });
         };
         
@@ -167,6 +171,7 @@
       cancel    : cancel,
       cancelled : cancelled,
       running   : running,
+      reset     : reset,
     };
   }
   
@@ -316,29 +321,35 @@
         createdElm      = document.querySelector(".js-imagekit-created"),
         pendingElm      = document.querySelector(".js-imagekit-pending"),
         
-        progress        = new ProgressBar(),
-        
-        _data;
+        progress        = new ProgressBar();
     
 /* -----  Internal Interface Methods  --------------------------------------- */
-    
-    function update(data) {
-      _data = data;
-    }
     
     function updateStatus(status) {
       createdElm.innerHTML = status.created;
       pendingElm.innerHTML = status.pending;
     }
     
-    function error(message) {
+    function error(message, onClose) {
+      onClose = onClose || false;
       actions.disable();
       progress.disable();
       
       var $overlay = $("<div/>").addClass("imagekit-error-overlay");
       $overlay.append('<i class="imagekit-error-icon">'); // fa  fa-exclamation-triangle  fa-2x
-      $overlay.append($('<div/>').html(message));
+      $overlay.append($('<p/>').html(message));
       $("#imagekit-widget").append($overlay);
+
+      if(onClose) {
+        $overlay.append($('<a href="#" class="btn btn-rounded">OK</a>').click(function() {
+          $overlay.remove();
+          api.reset();
+          progress.hide();
+          actions.enable().icon("create", "fa-stop-circle-o", "fa-play-circle-o");
+          status();
+          onClose();
+        }));
+      }
     }
 
 /* -----  Widget Actions  --------------------------------------------------- */  
@@ -391,6 +402,12 @@
           
         updateStatus(result.status);      
         callback();
+      }, function (result) {
+        // error
+        //alert(result.message);
+        error(result.message, function() {
+          alert("closed");
+        });
       });
     }
     

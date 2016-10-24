@@ -2,6 +2,10 @@
 
 namespace Kirby\Plugins\ImageKit\Widget;
 
+/**
+ * A very simple translations class, which can load an
+ * associative PHP array of language strings.
+ */
 class Translations {
   
   protected static $cache;

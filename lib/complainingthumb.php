@@ -37,17 +37,17 @@ class ComplainingThumb extends Thumb {
   }
   
   public function create() {
-    
+
     if(!static::$_sendError) {
       // Don’t setup a error handlers, if complaining is
-      // not enabled.
+      // not enabled and just return the result of create().
       return parent::create();
     }
     
     $this->prepareErrorHandler();
     $result = parent::create();
     $this->restoreErrorHandler();
-    
+   
     if(!file_exists($this->destination->root)) {
       
       $message = str::template('Thumbnail creation for "{file}" failed. Please ensure, that the thumbs directory is writable and your driver configuration is correct.', [
@@ -64,8 +64,8 @@ class ComplainingThumb extends Thumb {
   
   private function prepareErrorHandler() {
 
-    // Allowcate one additional megabyte of memory to make
-    // catching of out of memory errors more reliable.
+    // Reserve one additional megabyte of memory to make
+    // catching of out-of-memory errors more reliable.
     // The variable’s content is deleted in the shutdown
     // function to have more available memory to prepare an
     // error.
@@ -130,7 +130,7 @@ class ComplainingThumb extends Thumb {
       
       if(str::contains($error['message'], 'Allowed Memory Size')) {
         
-        $message = str::template('Thumbnail creation for "{file}" failed, because  source image is probably too large ({width} × {height} pixels / {size}) To fix this issue, increase the memory limit of PHP or upload a smaller version of this image.', [
+        $message = str::template('Thumbnail creation for "{file}" failed, because source image is probably too large ({width} × {height} pixels / {size}) To fix this issue, increase the memory limit of PHP or upload a smaller version of this image.', [
             'file'   => static::$_errorData['file'],
             'width'  => number_format(static::$_errorData['width']),
             'height' => number_format(static::$_errorData['height']),
@@ -163,7 +163,7 @@ class ComplainingThumb extends Thumb {
       header('Content-Type: image/svg+xml');
       
       // Although this is technically not correct, we have
-      // to send  status code 200, otherwise the images does
+      // to send  status code 200, otherwise the image does
       // not show up in Firefox and Safari, although it
       // works with code 500 in Chrome and Edge. Also tested
       // in IE 10, IE 11
@@ -187,9 +187,19 @@ class ComplainingThumb extends Thumb {
         </symbol>
         
         <rect width="100%" height="100%" fill="#F4999D" />
-        <g class="error-icon">
-          <use xlink:href="#icon" transform="translate(<?= number_format($width / 2 - 48 / 2,1,'.','') ?>, <?= number_format($height / 2 - 44.52 / 2,1,'.','') ?>)" />
-        </g>
+
+        <switch>
+          <foreignObject width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">
+            <body xmlns="http://www.w3.org/1999/xhtml" style="background:#F4999D;text-align:center;color:#fff;box-sizing:border-box;margin:0;padding:0;font-size:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif">
+              <p style="margin:0;word-wrap:break-word;position:absolute;top:50%;transform:translateY(-50%);width: 100%;box-sizing:border-box;padding: 0 1em;">
+                <svg viewBox="0 0 48 44.52" width="24" height="22.125" xmlns="http://www.w3.org/2000/svg" style="display: block; margin: 0 auto 12px;"><path d="M27.425,36.789V31.705a0.854,0.854,0,0,0-.254-0.629,0.823,0.823,0,0,0-.6-0.254H21.431a0.823,0.823,0,0,0-.6.254,0.854,0.854,0,0,0-.254.629v5.084a0.854,0.854,0,0,0,.254.629,0.823,0.823,0,0,0,.6.254h5.137a0.823,0.823,0,0,0,.6-0.254A0.854,0.854,0,0,0,27.425,36.789ZM27.371,26.782L27.853,14.5a0.589,0.589,0,0,0-.268-0.508,1.034,1.034,0,0,0-.642-0.294H21.057a1.034,1.034,0,0,0-.642.294,0.64,0.64,0,0,0-.268.562L20.6,26.782a0.514,0.514,0,0,0,.268.441,1.152,1.152,0,0,0,.642.174h4.95a1.088,1.088,0,0,0,.629-0.174A0.6,0.6,0,0,0,27.371,26.782ZM27,1.793L47.545,39.464a3.192,3.192,0,0,1-.054,3.371,3.422,3.422,0,0,1-2.943,1.686H3.452A3.422,3.422,0,0,1,.509,42.835a3.192,3.192,0,0,1-.054-3.371L21,1.793A3.417,3.417,0,0,1,22.261.482a3.381,3.381,0,0,1,3.478,0A3.417,3.417,0,0,1,27,1.793Z" fill="#ffffff"/></svg>
+                <?= $message ?>
+              </p>
+            </body>
+          </foreignObject>
+          <!-- Fallback -->
+        <use xlink:href="#icon" transform="translate(<?= number_format($width / 2 - 48 / 2,1,'.','') ?>, <?= number_format($height / 2 - 44.52 / 2,1,'.','') ?>)" />
+        </switch>
       </svg><?php      
 
     } else {

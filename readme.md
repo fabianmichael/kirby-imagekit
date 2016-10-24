@@ -260,7 +260,7 @@ However, even with a valid license code, it is discouraged to use it in any proj
 
 ## 9 Technical Support
 
-Technical support is provided via Email and on GitHub. If you’re facing any problems with running or setting up ImageKit, please send you request to [support@fabianmichael.de](mailto:support@fabianmichael.de) or [create a new issue](https://github.com/fabianmichael/kirby-imagekit/issues/new) in this GitHub respository. No representations or guarantees are made regarding the response time in which support questions are answered.
+Technical support is provided via Email and on GitHub. If you’re facing any problems with running or setting up ImageKit, please send you request to [support@fabianmichael.de](mailto:support@fabianmichael.de) or [create a new issue](https://github.com/fabianmichael/kirby-imagekit/issues/new) in this GitHub repository. No representations or guarantees are made regarding the response time in which support questions are answered.
 
 ## 10 Credits
 

@@ -4,6 +4,7 @@ const rename  = require("gulp-rename");
 const csso    = require("gulp-csso");
 const uglify  = require("gulp-uglify");
 const sass    = require("gulp-sass");
+const toc     = require("gulp-doctoc");
 const postcss = require("gulp-postcss");
 const assets  = require("postcss-assets");
 
@@ -25,7 +26,16 @@ gulp.task("scripts", function () {
     .pipe(gulp.dest("widgets/imagekit/assets/js/dist"));
 });
 
-gulp.task("default", ['styles', 'scripts']);
+gulp.task( 'readme', function() {
+  return gulp.src(['readme.md'])
+    .pipe(toc({
+      mode: "github.com",
+      title: "**Table of Contents**",
+    }))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task("default", ['styles', 'scripts', 'readme']);
 
 gulp.task("watch", ['default'], () => {
   gulp.watch('widgets/imagekit/assets/scss/**/*.scss', [ 'styles' ]);
