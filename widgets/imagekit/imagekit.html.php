@@ -31,14 +31,18 @@
 <?php
 echo 'window.ImageKitSettings = ' . json_encode([
   'api'          => kirby()->urls()->index() . '/plugins/imagekit/widget/api/',
-  'translations' => $translations->get(),
+  'translations' => array_merge(
+    $translations->get(), [
+      'cancel' => i18n('cancel'),
+      'ok'     => i18n('ok'),
+    ]),
   'discover'     => kirby()->option('imagekit.widget.discover'),
 ]) . ';';
 
 if(kirby()->option('imagekit.debug')) {
   echo f::read(__DIR__ . '/assets/js/src/widget.js');
 } else {
-  echo f::read(__DIR__ . '/assets/js/dist/widget.min.js');
+  echo f::read(__DIR__ . '/assets/js/dist/widget.js');
 }
 ?>
 </script>

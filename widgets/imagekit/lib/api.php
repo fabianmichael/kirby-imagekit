@@ -21,28 +21,6 @@ class API {
     return $instance ?: $instance = new static();
   }
 
-  protected function registerErrorHandler() {
-    
-    $kirby   = $this->kirby;
-    $handler = new CallbackHandler(function($exception, $inspector, $run) use($kirby) {
-        die("(t)error!");
-        echo response::json([
-          'status'  => 'error',
-          'code'    => $exception->getCode(),
-          'message' => 'this is a message', // $exception->getMessage() . "bla"
-        ], 500);
-      return Handler::QUIT;
-    });
-    //error_log('11111111');
-    // $this->kirby->errorHandling->whoops
-    //   ->unregister()
-    //   ->clearHandlers()
-    //   ->pushHandler($handler)
-    //   ->register();
-    print_r($this->kirby->errorHandling->whoops->getHandlers());
-    exit;
-  }
-  
   protected function __construct() {
     $self  = $this;
     
@@ -51,6 +29,8 @@ class API {
     $this->kirby->set('route', [
       'pattern' => 'plugins/imagekit/widget/api/(:any)',
       'action'  => function($action) use ($self) {
+        // Only register custom error handler, if ImageKit’s
+        // API is invoked.
         $this->registerErrorHandler();
 
         if($error = $this->authorize()) {
@@ -60,21 +40,46 @@ class API {
         if(method_exists($self, $action)) {
           return $this->$action();
         } else {
-          throw new APIException('Invalid plugin action. The action "' . html($action) . '" is not defined.');
+          throw new Exception('Invalid plugin action. The action "' . html($action) . '" is not defined.');
         }
       },
     ]);
     
     if(isset($_SERVER['HTTP_X_IMAGEKIT_INDEXING'])) {
+      // Handle indexing request (discovery feature).
       $this->handleCrawlerRequest();
     }
   }
+
+
+  protected function registerErrorHandler() {
+    
+    $kirby   = $this->kirby;
+
+    // Override Kirby’s Whoops handler, because line numbers
+    // and the file name, where an error occured don’t matter
+    // for us here.
+    $handler = new CallbackHandler(function($exception, $inspector, $run) use($kirby) {
+        echo response::json([
+          'status'  => 'error',
+          'code'    => $exception->getCode(),
+          'message' => $exception->getMessage(),
+        ], 500);
+      return Handler::QUIT;
+    });
+
+    $this->kirby->errorHandling->whoops
+      ->unregister()
+      ->clearHandlers()
+      ->pushHandler($handler)
+      ->register();
+  }
+  
   
   protected function authorize() {
     $user = kirby()->site()->user();
     if (!$user || !$user->hasPanelAccess()) {
-      throw new APIException('Only logged-in users can use the ImageKit widget. Please reload this page to get show the login form.');
-      //return Response::error('', 401);
+      throw new Exception('Only logged-in users can use the ImageKit widget. Please reload this page to go to the login form.');
     }
   }
   
@@ -85,7 +90,7 @@ class API {
     }
 
     if($this->kirby->option('representations.accept')) {
-      throw new APIException('ImageKit’s discover mode does currently not work, when the <code>representations.accept</code> setting is turned on. Please disable either this setting or disable <code>imagekit.widget.discover</code>.');
+      throw new Exception('ImageKit’s discover mode does currently not work, when the <code>representations.accept</code> setting is turned on. Please disable either this setting or disable <code>imagekit.widget.discover</code>.');
     } 
 
     kirby()->set('component', 'response', '\\kirby\\plugins\\imagekit\\widget\\apicrawlerresponse');

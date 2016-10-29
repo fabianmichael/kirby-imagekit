@@ -32,7 +32,7 @@
   cursor: default !important;
 }
 
-.imagekit-error-overlay {
+.imagekit-modal {
   background: rgba(#fff, .9);
   position: absolute;
   top: 0;
@@ -54,6 +54,10 @@
       margin-bottom: 0;
     }
   }
+}
+
+.imagekit-modal-buttons {
+  padding-top: 1em;
 }
 
 .imagekit-error-icon {

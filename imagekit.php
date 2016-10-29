@@ -10,7 +10,7 @@ load([
   'kirby\\plugins\\imagekit\\proxyasset'       => 'lib' . DS . 'proxyasset.php',
   'kirby\\plugins\\imagekit\\optimizer'        => 'lib' . DS . 'optimizer.php',
   
-  // Only the base optimizer is autoloaded, all other
+  // Only the base optimizer class is autoloaded, all other
   // optimizers are loaded by scanning the directory.
   'kirby\\plugins\\imagekit\\optimizer\\base'  => 'lib' . DS . 'optimizer' . DS . 'base.php',
 ], __DIR__);

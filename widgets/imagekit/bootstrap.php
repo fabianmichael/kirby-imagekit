@@ -14,7 +14,6 @@ load([
   'kirby\\plugins\\imagekit\\widget\\translations'        => 'lib' . DS . 'translations.php',
   'kirby\\plugins\\imagekit\\widget\\api'                 => 'lib' . DS . 'api.php',
   'kirby\\plugins\\imagekit\\widget\\apicrawlerresponse'  => 'lib' . DS . 'apicrawlerresponse.php',
-  'kirby\\plugins\\imagekit\\widget\\apiexception'        => 'lib' . DS . 'apiexception.php',
 ], __DIR__);
 
 

@@ -14,13 +14,11 @@ class APICrawlerResponse extends \Kirby\Component\Response {
     $html = parent::make($response);
 
     if(!class_exists('\DOMDocument')) {
-      throw new APIException('The discovery feature of ImageKit needs PHP with the *libxml* extension to run.');
+      throw new Exception('The discovery feature of ImageKit needs PHP with the <strong>libxml</strong> extension to run.');
     }
 
     $links = [];
 
-    throw new APIException("an error … :-(");
-      
     try {
       $doc = new DOMDocument();
       libxml_use_internal_errors(true);

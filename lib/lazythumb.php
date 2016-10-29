@@ -179,13 +179,13 @@ class LazyThumb extends Thumb {
   } 
 
   /**
-   * Returns the path a thumbnails jobfile. The jobfile
+   * Returns the path of a thumbnails jobfile. The jobfile
    * contains instructions about how to create the actual
    * thumbnail.
    *
    * @return string A thumbnail’s jobfile.
    */
-  protected static function jobfile($path) {
+  public static function jobfile($path) {
     return !str::endsWith($path, self::JOBFILE_SUFFIX) ? $path . self::JOBFILE_SUFFIX : $path;
   }
   

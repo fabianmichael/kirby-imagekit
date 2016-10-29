@@ -1,9 +1,10 @@
 # ImageKit Changelog
 
-- `1.1.0-beta2`
-  - Widget API now displays more helpful errors in most situations.
+- `1.1.0-beta2` (2016/10/29)
+  - Widget API now displays more helpful errors in most situations (only browsers, that support the `foreignContent` feature of SVG. Currently, most browsers will still only show the old error (but looks great in Firefox).
   - Widget Errors are now recoverable. You don’t have to reload the panel any more, if a server-side error occurs.
-  - Full integration with *Whoops* for error-handling.
+  - Better integration with *Whoops* for error-handling for the panel widget.
+  - Confirm dialog for clearing thumbs folder is not displaying as overlay, rather than as system dialod. Supports ESC key for cancel and ENTER for confirming the action.
 
 - `1.1.0-beta1` (2016/09/21)
   - **Optimization:** ImageKit is now capable of applying several optimizations to your images, using popular command-line tools.

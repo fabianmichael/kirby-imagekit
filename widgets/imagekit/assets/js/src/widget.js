@@ -335,7 +335,7 @@
       actions.disable();
       progress.disable();
       
-      var $overlay = $("<div/>").addClass("imagekit-error-overlay");
+      var $overlay = $("<div/>").addClass("imagekit-modal");
       $overlay.append('<i class="imagekit-error-icon">'); // fa  fa-exclamation-triangle  fa-2x
       $overlay.append($('<p/>').html(message));
       $("#imagekit-widget").append($overlay);
@@ -352,6 +352,37 @@
       }
     }
 
+    function confirm(message, onClose) {
+      var $overlay = $("<div/>").addClass("imagekit-modal"),
+          esc,
+          close;
+
+      $overlay.append($('<p/>').html(message));
+      $("#imagekit-widget").append($overlay);
+
+      esc = function(e) {
+        if("key" in e ? (e.key == "Escape" || e.key == "Esc") : (e.keyCode == 27)) {
+          close(false);
+        } else if ("key" in e ? e.key == "Enter" : e.key == 13) {
+          close(true);
+        }
+      };
+
+      close = function(result) {
+          $overlay.remove();
+          onClose(result);
+          document.removeEventListener("keydown", esc);
+      };
+
+      var $buttons = $('<p class="imagekit-modal-buttons"/>');
+      $buttons.append($('<a href="#" class="btn btn-rounded">' + i18n('cancel') + '</a>').click(function() { close(false); } ));
+      $buttons.append("&nbsp;&nbsp;&nbsp;");
+      $buttons.append($('<a href="#" class="btn btn-rounded">' + i18n('ok') + '</a>').click(function() { close(true); } ));
+      $overlay.append($buttons);
+
+      document.addEventListener("keydown", esc);
+    }
+
 /* -----  Widget Actions  --------------------------------------------------- */  
 
     function status() {
@@ -364,21 +395,39 @@
 
     function clear() {    
       if(api.running()) return;
+
+
+      confirm(i18n('imagekit.widget.clear.confirm'), function(confirmed) {
+        if(confirmed) {
+          actions.disable();
+          
+          progress
+            .value(false)
+            .text(i18n("imagekit.widget.progress.clearing"))
+            .show();
+          
+          api.clear(function(status) {
+            progress.hide();
+            actions.enable();
+            updateStatus(status);
+          });
+        }
+      });
       
-      if(window.confirm(i18n('imagekit.widget.clear.confirm'))) {
-        actions.disable();
+      // if(window.confirm(i18n('imagekit.widget.clear.confirm'))) {
+      //   actions.disable();
         
-        progress
-          .value(false)
-          .text(i18n("imagekit.widget.progress.clearing"))
-          .show();
+      //   progress
+      //     .value(false)
+      //     .text(i18n("imagekit.widget.progress.clearing"))
+      //     .show();
         
-        api.clear(function(status) {
-          progress.hide();
-          actions.enable();
-          updateStatus(status);
-        });
-      }
+      //   api.clear(function(status) {
+      //     progress.hide();
+      //     actions.enable();
+      //     updateStatus(status);
+      //   });
+      // }
     }
     
     function index(callback) {
@@ -404,9 +453,7 @@
         callback();
       }, function (result) {
         // error
-        //alert(result.message);
         error(result.message, function() {
-          alert("closed");
         });
       });
     }
