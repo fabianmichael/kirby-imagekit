@@ -247,7 +247,7 @@ abstract class Base implements BaseInterface {
    */
   protected function option($key, $default = null) {
     if(isset($this->thumb->options[$key])) {
-      return $this->options[$key];
+      return $this->thumb->options[$key];
     } else {
       return static::$kirby->option($key, $default);
     }
