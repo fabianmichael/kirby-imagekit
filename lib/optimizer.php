@@ -155,4 +155,15 @@ class Optimizer {
     $initialized = true;
   }
 
+  public static function available($name) {
+    static::init();
+    $name = strtolower($name);
+
+    foreach(static::$optimizers as $optimizer) {
+      if($optimizer::name() === $name) return true;
+    }
+
+    return false;
+  }
+
 }

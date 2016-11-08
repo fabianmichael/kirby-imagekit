@@ -1,5 +1,9 @@
 # ImageKit Changelog
 
+- `1.1.0`
+  - Fix error with overridden optimizer options.
+  - Make `imagekit.lazy` overridable for single thumbnails
+
 - `1.1.0-beta2` (2016/10/29)
   - Widget API now displays more helpful errors in most situations (only browsers, that support the `foreignContent` feature of SVG. Currently, most browsers will still only show the old error (but looks great in Firefox).
   - Widget Errors are now recoverable. You don’t have to reload the panel any more, if a server-side error occurs.

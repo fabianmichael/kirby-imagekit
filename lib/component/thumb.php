@@ -78,7 +78,7 @@ class Thumb extends ThumbComponent {
   
   public function create($file, $params) {
     
-    if (!$this->kirby->option('imagekit.lazy')) {
+    if (!$this->kirby->option('imagekit.lazy') || (isset($params['imagekit.lazy']) && !$params['imagekit.lazy'])) {
       return parent::create($file, $params);
     }
     
