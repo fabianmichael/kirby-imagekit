@@ -1,14 +1,21 @@
 {
   "name": "imagekit",
-  "version": "1.1.0-beta2",
-  "description": "Asynchronous thumbs API for Kirby CMS with superpowers.",
-  "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "type": "kirby-plugin",
+  "description": "Asynchronous thumbs API and image optimization for Kirby CMS.",
   "author": "Fabian Michael <hallo@fabianmichael.de>",
   "license": "SEE LICENSE IN license.md",
+  "version": "1.1.0",
+
+  "type": "kirby-plugin",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabianmichael/kirby-imagekit"
+  },
+
+  "bugs": {
+    "url": "https://github.com/fabianmichael/kirby-imagekit/issues"
+  }
+
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-csso": "^2.0.0",
@@ -18,5 +25,5 @@
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^1.5.4",
     "postcss-assets": "^4.1.0"
-  }
+  },
 }

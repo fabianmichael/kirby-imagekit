@@ -1,10 +1,10 @@
 <img src="https://fabianmichael.de/shared/imagekit-logo-github.png" alt="Imagekit Logo" width="120" height="120" />
 
-# ImageKit for Kirby CMS
+# ImageKit
 
 ![GitHub release](https://img.shields.io/github/release/fabianmichael/kirby-imagekit.svg?maxAge=2592000) ![License](https://img.shields.io/badge/license-commercial-green.svg) ![Kirby Version](https://img.shields.io/badge/Kirby-2.3%2B-red.svg)
 
-ImageKit provides an asynchronous thumbnail API and advanced image optimization for [Kirby](http://getkirby.com).
+ImageKit provides an asynchronous thumbnail API and advanced image optimization for [Kirby CMS](http://getkirby.com).
 
 **NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#license) section of this document.
 
