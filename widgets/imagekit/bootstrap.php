@@ -2,12 +2,6 @@
 
 namespace Kirby\Plugins\ImageKit\Widget;
 
-use Obj;
-use Response;
-use Tpl;
-use Exception;
-
-use Kirby\Plugins\ImageKit\LazyThumb;
 
 load([
   'kirby\\plugins\\imagekit\\widget\\widget'              => 'lib' . DS . 'widget.php',
