@@ -42,7 +42,7 @@ echo 'window.ImageKitSettings = ' . json_encode([
 if(kirby()->option('imagekit.debug')) {
   echo f::read(__DIR__ . '/assets/js/src/widget.js');
 } else {
-  echo f::read(__DIR__ . '/assets/js/dist/widget.js');
+  echo f::read(__DIR__ . '/assets/js/dist/widget.min.js');
 }
 ?>
 </script>
