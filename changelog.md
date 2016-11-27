@@ -1,5 +1,8 @@
 # ImageKit Changelog
 
+- `1.1.1` (2016/11/27)
+  - Fix unimified Widget JS in 
+
 - `1.1.0` (2016/11/24)
   - Fix error with overridden optimizer options.
   - Make `imagekit.lazy` overridable for single thumbnails
