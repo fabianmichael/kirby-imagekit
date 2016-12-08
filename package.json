@@ -14,7 +14,7 @@
 
   "bugs": {
     "url": "https://github.com/fabianmichael/kirby-imagekit/issues"
-  }
+  },
 
   "devDependencies": {
     "gulp": "^3.9.1",
