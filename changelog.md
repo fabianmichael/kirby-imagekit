@@ -1,5 +1,8 @@
 # ImageKit Changelog
 
+- `1.1.2` (2016/12/11)
+  - Remove Whoops handler to restore Widget compatibility with Kirby 2.4.1.
+
 - `1.1.1` (2016/11/27)
   - Fix path to panel JS 
 
