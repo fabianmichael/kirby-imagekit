@@ -29,10 +29,6 @@ class API {
     $this->kirby->set('route', [
       'pattern' => 'plugins/imagekit/widget/api/(:any)',
       'action'  => function($action) use ($self) {
-        // Only register custom error handler, if ImageKit’s
-        // API is invoked.
-        $this->registerErrorHandler();
-
         if($error = $this->authorize()) {
           return $error;
         }
@@ -50,31 +46,6 @@ class API {
       $this->handleCrawlerRequest();
     }
   }
-
-
-  protected function registerErrorHandler() {
-    
-    $kirby   = $this->kirby;
-
-    // Override Kirby’s Whoops handler, because line numbers
-    // and the file name, where an error occured don’t matter
-    // for us here.
-    $handler = new CallbackHandler(function($exception, $inspector, $run) use($kirby) {
-        echo response::json([
-          'status'  => 'error',
-          'code'    => $exception->getCode(),
-          'message' => $exception->getMessage(),
-        ], 500);
-      return Handler::QUIT;
-    });
-
-    $this->kirby->errorHandling->whoops
-      ->unregister()
-      ->clearHandlers()
-      ->pushHandler($handler)
-      ->register();
-  }
-  
   
   protected function authorize() {
     $user = kirby()->site()->user();
