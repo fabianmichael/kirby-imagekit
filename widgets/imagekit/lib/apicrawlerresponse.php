@@ -21,7 +21,7 @@ class APICrawlerResponse extends \Kirby\Component\Response {
 
   public function detectRedirectRequest() {
     // Redirects should be ignored by the widget, so
-    // overrride a redirect and just return a valid json
+    // override a redirect and just return a valid json
     // response.
     $redirect = in_array(http_response_code(), [301, 302, 303, 304, 307]);
     $sent     = headers_sent();
