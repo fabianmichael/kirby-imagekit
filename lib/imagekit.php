@@ -12,7 +12,7 @@ use Str;
  */
 class ImageKit {
   
-  protected $version = '1.1.2';
+  protected $version = '1.1.3';
   
   
   protected function __construct() {
