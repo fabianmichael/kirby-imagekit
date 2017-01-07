@@ -6,7 +6,7 @@
 
 ImageKit provides an asynchronous thumbnail API and advanced image optimization for [Kirby CMS](http://getkirby.com).
 
-**NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#license) section of this document.
+**NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#8-license) section of this document.
 
 <img src="https://shared.fabianmichael.de/imagekit-widget-v2.gif" alt="ImageKit’s Dashboard Widget" width="460" height="231" />
 
