@@ -1,5 +1,8 @@
 # ImageKit Changelog
 
+- `1.1.3` (2017/01/07)
+  - Add redirect detection to Widget API, so the indexing feature works with templates, that only send a redirect to the browser instead of showing content.
+
 - `1.1.2` (2016/12/11)
   - Remove Whoops handler to restore Widget compatibility with Kirby 2.4.1.
 
