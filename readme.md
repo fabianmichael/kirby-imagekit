@@ -2,7 +2,7 @@
 
 # ImageKit
 
-![GitHub release](https://img.shields.io/github/release/fabianmichael/kirby-imagekit.svg?maxAge=3600) ![License](https://img.shields.io/badge/license-commercial-green.svg) ![Kirby Version](https://img.shields.io/badge/Kirby-2.3%2B-red.svg)
+![GitHub release](https://img.shields.io/github/release/fabianmichael/kirby-imagekit.svg?maxAge=0) ![License](https://img.shields.io/badge/license-commercial-green.svg) ![Kirby Version](https://img.shields.io/badge/Kirby-2.3%2B-red.svg)
 
 ImageKit provides an asynchronous thumbnail API and advanced image optimization for [Kirby CMS](http://getkirby.com).
 
