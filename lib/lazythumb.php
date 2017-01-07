@@ -258,7 +258,36 @@ class LazyThumb extends Thumb {
    *                otherwise `false`.
    */
   public static function clear() {
-    return dir::clean(kirby()->roots()->thumbs());
+
+    $root  = kirby()->roots()->thumbs();
+
+    // Look for placeholder files used by many projects
+    // when working with git. these files are used to add
+    // empty directories to repositories. Files will be
+    // re-created after zhe cache has been flushed. Although
+    // these files are usually empty, it’s more secure to
+    // read their contents before deleting them, just in case …
+    $indexFile   = $root . DS . 'index.html';
+    $index       = f::exists($indexFile) ? f::read($indexFile) : false;
+    $gitkeepFile = $root . DS . '.gitkeep';
+    $gitkeep     = f::exists($gitkeepFile) ? f::read($gitkeepFile) : false;
+
+    $result = dir::clean($root);
+
+    if($result) {
+      // Only re-create if thumbs dir cleanup was successful
+
+      if($index !== false) {
+        // Re-create index.html if it existed before
+        f::write($indexFile, $index);
+      }
+      if($gitkeep !== false) {
+        // Re-create .gitkeep file, if it existed before
+        f::write($gitkeepFile, $gitkeep);
+      }
+    }
+
+    return $result;
   }
   
 }
