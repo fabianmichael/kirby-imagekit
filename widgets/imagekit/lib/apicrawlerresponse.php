@@ -7,7 +7,8 @@ use DOMDocument;
 use Kirby;
 use Response;
 use Kirby\Plugins\ImageKit\LazyThumb;
-
+use Url;
+use V;
 
 class APICrawlerResponse extends \Kirby\Component\Response {
 
@@ -61,9 +62,16 @@ class APICrawlerResponse extends \Kirby\Component\Response {
       );
       
       foreach($elements as $elm) {
-        $rel = $elm->getAttribute('rel');
+        $rel  = $elm->getAttribute('rel');
         if($rel === 'next' || $rel === 'prev') {
-          $links[] = $elm->getAttribute('href');
+          $href = $elm->getAttribute('href');
+          if(v::url($href) && url::host($href) === url::host()) {
+            // Only add, if href is either a URL on the same
+            // domain as the API call was made to, as links
+            // could possibly link to sth. like `#page2` or
+            // `javascript:;` on AJAX-powered websites.
+            $links[] = $href;
+          }
         }
       }
 
