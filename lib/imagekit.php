@@ -2,6 +2,7 @@
 
 namespace Kirby\Plugins\ImageKit;
 
+use F;
 use Obj;
 use Str;
 
@@ -12,8 +13,7 @@ use Str;
  */
 class ImageKit {
   
-  protected $version = '1.1.3';
-  
+  protected $version;
   
   protected function __construct() {
     // Just declared to prevent direct instantiation of this
@@ -26,6 +26,11 @@ class ImageKit {
   }
   
   public function version() {
+    if(is_null($this->version)) {
+      $package = json_decode(f::read(dirname(__DIR__) . DS . 'package.json'));
+      $this->version = $package->version;
+    }
+
     return $this->version;
   }
 
