@@ -4,6 +4,7 @@ namespace Kirby\Plugins\ImageKit\Component;
 
 use Asset;
 use F;
+use Header;
 use Kirby\Component\Thumb as ThumbComponent;
 use Kirby\Plugins\ImageKit\LazyThumb;
 use Kirby\Plugins\ImageKit\ComplainingThumb;
@@ -64,8 +65,28 @@ class Thumb extends ThumbComponent {
         // execute if exists
         $thumb = lazythumb::process($path);
         
-        if ($thumb) {
-          f::show($thumb->result->root());
+        if($thumb) {
+          // Serve the image, if everything went fine :-D
+          
+          $root = $thumb->result->root();
+
+          // Make sure, we’re sending a 200 status, telling
+          // the browser that everything’s okay.
+          header::status(200);
+
+          // Don’t tell anyone that this image was just
+          // created by PHP ;-)
+          header_remove('X-Powered-By');
+
+          header('Last-Modified: '  . gmdate('D, d M Y H:i:s', f::modified($root)) . ' GMT');
+          header('Content-Type: '   . f::mime($root));
+          header('Content-Length: ' . f::size($root));
+
+          // Send file and stop script execution
+          readfile($root);
+          
+          exit;
+
         } else {
           // Show a 404 error, if the job could not be
           // found or executed
