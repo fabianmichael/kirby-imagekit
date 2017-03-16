@@ -231,30 +231,46 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 
 ## 7 Troubleshooting
 
-**How can I activate ImageMagick?**<br>
+<details>
+<summary>How can I activate ImageMagick?</summary>
 As ImageKit acts as a proxy for Kirby’s built-in thumbnail engine, you have to activate it on your `config.php` file, just as you would do without ImageKit like below:
+
 ```
 c::set('thumbs.driver','gd');
 c::set('thumbs.bin', '/usr/local/bin/convert');
 ```
+
 &rarr; Kirby documentation for [`thumbs.driver`](https://getkirby.com/docs/cheatsheet/options/thumbs-driver) and [`thumbs.bin`](https://getkirby.com/docs/cheatsheet/options/thumbs-bin)
 
-*Please note, that Kirby uses the command-line version of ImageMagick, rather than its PHP extension. In order to use ImageMagick as your processing backend, the ImageMagick executable (`convert`) has to be installed on your server.*
+Please note, that Kirby uses the command-line version of ImageMagick, rather than its PHP extension. In order to use ImageMagick as your processing backend, the ImageMagick executable (`convert`) has to be installed on your server.*
+</details>
 
-**Thumbnail creation always fails …**<br>
+
+<details>
+<summary>Thumbnail creation always fails …</summary>
 This may happen because of several reasons. First, make sure that your thumbs folder is writable for Kirby. If you’re using the GD Library driver, make sure that PHP’s memory limit is set to a high-enough value. Increasing the memory limit allows GD to process larger source files. Or if you favor ImageMagick (I do), make sure that the path to the `convert` executable is correctly configured.
+</details>
 
-**The Discovery Feature does not work with my site:**<br>
+<details>
+<summary>The Discovery Feature does not work with my site:</summary>
 Discovery works by creating a sitemap of your entire site and then sends an HTTP request to every of those URLs to trigger rendering of every single page. When doing so, ImageKit sees everything from a logged-in user’s perspective. It tries it’s best to find pagination on pages, but it cannot create thumbnails whose are – for example – only available on a search results page, where entries are only displayed when a certain keyword was entered into a form. Also make sure, that your Server’s PHP installation comes with `libxml`, which is used by PHP’s DOM interface.
+</details>
 
-**Can I also optimize the images in my content folder?**<br>
+<details>
+<summary>Can I also optimize the images in my content folder?</summary>
 This is currently not possible, because it would need a whole UI for the admin panel and would also be very risky to apply some bulk processing on your source images without knowing the actual results of optimization. If you need optimized images in your content folder, I really recommend that you use tools like [ImageOptim](https://imageoptim.com/mac) and [ImageAlpha](https://pngmini.com/) to optimize your images prior to uploading them. This saves space on your server and also speeds up your backups.
+</details>
+
+<details>
+<summary>404 Errors with nginx</summary>
+ImageKit may have problems with certain nginx configurations, resulting 404 errors, when a thumbnail is requested for the first time. See [this issue](https://github.com/fabianmichael/kirby-imagekit/issues/9) to learn, how you have to configure nginx to solve this issue.
+</details>
 
 ## 8 License
 
 ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license. See `license.md` for terms and conditions.
 
-[<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit)
+[<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit). The plugin is also available as a [bundle](http://sites.fastspring.com/fabianmichael/product/imgbundle1) with [ImageSet](https://github.com/fabianmichael/kirby-imageset), a plugin for bringing responsive images with superpowers to you Kirby-driven site.
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
