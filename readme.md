@@ -232,7 +232,7 @@ Gifsicle optimizes the data of GIF images. Especially for animations, using this
 ## 7 Troubleshooting
 
 <details>
-<summary>How can I activate ImageMagick?</summary>
+<summary><strong>How can I activate ImageMagick?</strong></summary>
 As ImageKit acts as a proxy for Kirby’s built-in thumbnail engine, you have to activate it on your `config.php` file, just as you would do without ImageKit like below:
 
 ```
@@ -247,22 +247,22 @@ Please note, that Kirby uses the command-line version of ImageMagick, rather tha
 
 
 <details>
-<summary>**Thumbnail creation always fails …**</summary>
+  <summary><strong>Thumbnail creation always fails …</strong></summary>
 This may happen because of several reasons. First, make sure that your thumbs folder is writable for Kirby. If you’re using the GD Library driver, make sure that PHP’s memory limit is set to a high-enough value. Increasing the memory limit allows GD to process larger source files. Or if you favor ImageMagick (I do), make sure that the path to the `convert` executable is correctly configured.
 </details>
 
 <details>
-<summary>**The Discovery Feature does not work with my site:**</summary>
+  <summary><strong>The Discovery Feature does not work with my site:</strong></summary>
 Discovery works by creating a sitemap of your entire site and then sends an HTTP request to every of those URLs to trigger rendering of every single page. When doing so, ImageKit sees everything from a logged-in user’s perspective. It tries it’s best to find pagination on pages, but it cannot create thumbnails whose are – for example – only available on a search results page, where entries are only displayed when a certain keyword was entered into a form. Also make sure, that your Server’s PHP installation comes with `libxml`, which is used by PHP’s DOM interface.
 </details>
 
 <details>
-<summary>**Can I also optimize the images in my content folder?**</summary>
+  <summary><strong>Can I also optimize the images in my content folder?</strong></summary>
 This is currently not possible, because it would need a whole UI for the admin panel and would also be very risky to apply some bulk processing on your source images without knowing the actual results of optimization. If you need optimized images in your content folder, I really recommend that you use tools like <a href="https://imageoptim.com/mac">ImageOptim</a> and <a href="https://pngmini.com/">ImageAlpha</a> to optimize your images prior to uploading them. This saves space on your server and also speeds up your backups.
 </details>
 
 <details>
-<summary>**404 Errors with nginx**</summary>
+  <summary><strong>404 Errors with nginx</strong></summary>
 ImageKit may have problems with certain nginx configurations, resulting 404 errors, when a thumbnail is requested for the first time. See <a href="https://github.com/fabianmichael/kirby-imagekit/issues/9">this issue</a> to learn, how you have to configure nginx to solve this issue.
 </details>
 
