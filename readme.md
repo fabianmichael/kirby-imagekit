@@ -263,7 +263,7 @@ This is currently not possible, because it would need a whole UI for the admin p
 
 <details>
 <summary>404 Errors with nginx</summary>
-ImageKit may have problems with certain nginx configurations, resulting 404 errors, when a thumbnail is requested for the first time. See [this issue](https://github.com/fabianmichael/kirby-imagekit/issues/9) to learn, how you have to configure nginx to solve this issue.
+ImageKit may have problems with certain nginx configurations, resulting 404 errors, when a thumbnail is requested for the first time. See <a href="https://github.com/fabianmichael/kirby-imagekit/issues/9">this issue</a> to learn, how you have to configure nginx to solve this issue.
 </details>
 
 ## 8 License
