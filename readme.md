@@ -122,7 +122,7 @@ This currently works by using PHP’s DOM interface (`DOMDocument`), so if your 
 
 | Option              | Default value | Description                                                                                                                                                                                                                                                     |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `imagekit.license`    | `''`          | Enter your license code here, once your site goes live.<br>[<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit)                                                                                                                                                                       |
+| `imagekit.license`    | `''`          | Enter your license code here, once your site goes live.<br>[<img src="https://fabianmichael.de/shared/buy-imagekit.png" width="142" height="48" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit)                                                                                                                                                                       |
 | `imagekit.lazy`       | `true`        | Set to `false` to temporary disable asynchronous thumbnail generation. This will restore the default behavior of Kirby.                                                                                                                                         |
 | `imagekit.complain`   | `true`        | If enabled, ImageKit will try to return a placeholder showing an error symbol whenever thumbnail creation fails. If you don’t like this behavior, you can turn this feature off and ImageKit will fail silently.
 | `imagekit.widget`     | `true`        | Enables the dashboard widget.                                                                                                                                                                                                                                   |
@@ -270,8 +270,10 @@ ImageKit may have problems with certain nginx configurations, resulting 404 erro
 
 ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license. See `license.md` for terms and conditions.
 
-[<img src="https://img.shields.io/badge/%E2%80%BA-Buy%20a%20license-green.svg" alt="Buy a license">](http://sites.fastspring.com/fabianmichael/product/imagekit).<br>
-*The plugin is also available as a [bundle](http://sites.fastspring.com/fabianmichael/product/imgbundle1) with [ImageSet](https://github.com/fabianmichael/kirby-imageset), a plugin for bringing responsive images with superpowers to you Kirby-driven site.*
+*The plugin is also available as a bundle with [ImageSet](https://github.com/fabianmichael/kirby-imageset), a plugin for bringing responsive images with superpowers to you Kirby-driven site.*
+
+[<img src="https://fabianmichael.de/shared/buy-imagekit.png" width="142" height="48" alt="Buy ImageKit">](http://sites.fastspring.com/fabianmichael/product/imagekit)  
+[<img src="https://fabianmichael.de/shared/buy-bundle.png" width="310" height="48" alt="Buy the ImageKit + ImageSet Bundle">](http://sites.fastspring.com/fabianmichael/product/imgbundle1)  
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
