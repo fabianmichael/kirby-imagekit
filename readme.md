@@ -54,8 +54,6 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
 - **Error-Handling:** ImageKit let’s you know, when errors occur during thumbnail creation *(experimental)*.
 - **Self-Hosted:** Unlike many other image-resizing-services, ImageKit just sits in Kirby’s plugin directory, so you have everything under control without depending on external providers. No monthly fees. No visitor data is exposed to external companies. tl;dr: No bullshit!
 
-The plugin will be extended by a responsive image component in the future with support for lazy-loading and placeholders (like on <https://fabianmichael.de>). Those features will be released as a separate plugin. You can get a discount, when you buy both plugins as a bundle.
-
 *) To use optimization features, your need to have the corresponding command-line utilities installed on your server or have sufficient permissions to install them. The effectiveness of compression also depends heavily on your source images.
 
 ***
