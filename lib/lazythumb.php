@@ -140,10 +140,12 @@ class LazyThumb extends Thumb {
         $image = site()->image($thumbinfo['source']['filename']);
       } else {
         // Image belongs to a specific page
-        $image = page($thumbinfo['source']['page'])->image($thumbinfo['source']['filename']);
+        if ($page = page($thumbinfo['source']['page'])) {
+          $image = page($thumbinfo['source']['page'])->image($thumbinfo['source']['filename']);
+        }
       }
       
-      if(!$image) {
+      if (empty($image)) {
         // If source image does not exist any more, remove
         // the jobfile.
         f::remove($jobfile);
