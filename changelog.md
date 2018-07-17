@@ -4,6 +4,7 @@
   - Add redirect detection to Widget API, so the indexing feature works with templates, that only send a redirect to the browser instead of showing content.
   - Re-Create placeholder files (`index.html` and `.gitkeep`), often used in Git repositories after thumbs cache has been cleaned.
   - Discovery feature does now validate the `href` attribute of links, when indexing the whole site.
+  - Empty pages without any HTML output will no longer break the panel widget.
 
 - `1.1.3` (2017/01/07)
   - Add redirect detection to Widget API, so the indexing feature works with templates, that only send a redirect to the browser instead of showing content.

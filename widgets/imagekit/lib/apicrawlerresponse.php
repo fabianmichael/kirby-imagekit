@@ -50,33 +50,35 @@ class APICrawlerResponse extends \Kirby\Component\Response {
 
     $links = [];
 
-    try {
-      $doc = new DOMDocument();
-      libxml_use_internal_errors(true);
-      $doc->loadHTML($html);
-      libxml_clear_errors();
-      
-      $elements = array_merge(
-        iterator_to_array($doc->getElementsByTagName('a')),
-        iterator_to_array($doc->getElementsByTagName('link'))
-      );
-      
-      foreach($elements as $elm) {
-        $rel  = $elm->getAttribute('rel');
-        if($rel === 'next' || $rel === 'prev') {
-          $href = $elm->getAttribute('href');
-          if(v::url($href) && url::host($href) === url::host()) {
-            // Only add, if href is either a URL on the same
-            // domain as the API call was made to, as links
-            // could possibly link to sth. like `#page2` or
-            // `javascript:;` on AJAX-powered websites.
-            $links[] = $href;
+    if(!empty($html)) {
+      try {
+        $doc = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $doc->loadHTML($html);
+        libxml_clear_errors();
+        
+        $elements = array_merge(
+          iterator_to_array($doc->getElementsByTagName('a')),
+          iterator_to_array($doc->getElementsByTagName('link'))
+        );
+        
+        foreach($elements as $elm) {
+          $rel  = $elm->getAttribute('rel');
+          if($rel === 'next' || $rel === 'prev') {
+            $href = $elm->getAttribute('href');
+            if(v::url($href) && url::host($href) === url::host()) {
+              // Only add, if href is either a URL on the same
+              // domain as the API call was made to, as links
+              // could possibly link to sth. like `#page2` or
+              // `javascript:;` on AJAX-powered websites.
+              $links[] = $href;
+            }
           }
         }
-      }
 
-    } catch(Exception $e) {
-      return Response::error($e->getMessage(), 500);
+      } catch(Exception $e) {
+        return Response::error($e->getMessage(), 500);
+      }
     }
 
     return Response::success(true, [
