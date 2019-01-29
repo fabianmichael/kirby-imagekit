@@ -61,7 +61,7 @@ ImageKit provides an asynchronous thumbnail API and advanced image optimization 
 ### 2.1 Requirements
 
 -	PHP 5.4.0+ (With *libxml* if you’re using discovery mode. This extension is usually installed on most hosting providers.)
--	Kirby 2.3.0+
+-	Kirby 2.3.0+ (not compatible with Kirby 3)
 - GD Library for PHP or ImageMagick command-line tools to resize images.
 - Tested on Apache 2 with mod_rewrite (but it should also work with other servers like nginx)
 - Permission to install and execute several command-line utilities on your server, if your want to use the optimization feature.
