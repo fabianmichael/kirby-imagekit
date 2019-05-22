@@ -268,8 +268,7 @@ ImageKit can be evaluated as long as you want on how many private servers you wa
 
 *The plugin is also available as a bundle with [ImageSet](https://github.com/fabianmichael/kirby-imageset), a plugin for bringing responsive images with superpowers to you Kirby-driven site.*
 
-→ [Buy ImageKit](http://sites.fastspring.com/fabianmichael/product/imagekit)  
-→ [Buy the ImageKit + ImageSet Bundle](http://sites.fastspring.com/fabianmichael/product/imgbundle1)
+As of May 22, 2019, I have stopped selling licenses of both ImageKit and ImageSet. If you bought licenses in the past, then thank you for your support.
 
 However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
 
