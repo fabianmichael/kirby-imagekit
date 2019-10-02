@@ -1,10 +1,8 @@
 # ImageKit
 
-![GitHub release](https://img.shields.io/github/release/fabianmichael/kirby-imagekit.svg?maxAge=1800) ![License](https://img.shields.io/badge/license-commercial-green.svg) ![Kirby Version](https://img.shields.io/badge/Kirby-2.3%2B-red.svg)
-
 ImageKit provides an asynchronous thumbnail API and advanced image optimization for [Kirby CMS](http://getkirby.com).
 
-**NOTE:** This is not be a free plugin. In order to use it on a production server, you need to buy a license. For details on ImageKit’s license model, scroll down to the [License](#8-license) section of this document.
+**NOTE:** This plugin was realeased under a commercial license at first. As of October 2nd, 2019, the code has been re-issued under the MIT license. As I have stopped sales and development, please note that I do not offer support any longer. If you want to use this plugin with a legacy Kirby 2-website, just use this license key to get rid of any limitations of the trial version: `IMGKT1-00000000000000000000000000000000`.
 
 <img src="https://shared.fabianmichael.de/imagekit-widget-v2.gif" alt="ImageKit’s Dashboard Widget" width="460" height="231" />
 
@@ -261,21 +259,3 @@ This is currently not possible, because it would need a whole UI for the admin p
   <summary><strong>404 Errors with nginx</strong></summary>
 ImageKit may have problems with certain nginx configurations, resulting 404 errors, when a thumbnail is requested for the first time. See <a href="https://github.com/fabianmichael/kirby-imagekit/issues/9">this issue</a> to learn, how you have to configure nginx to solve this issue.
 </details>
-
-## 8 License
-
-ImageKit can be evaluated as long as you want on how many private servers you want. To deploy ImageKit on any public server, you need to buy a license. See `license.md` for terms and conditions.
-
-*The plugin is also available as a bundle with [ImageSet](https://github.com/fabianmichael/kirby-imageset), a plugin for bringing responsive images with superpowers to you Kirby-driven site.*
-
-As of May 22, 2019, I have stopped selling licenses of both ImageKit and ImageSet. If you bought licenses in the past, then thank you for your support.
-
-However, even with a valid license code, it is discouraged to use it in any project, that promotes racism, sexism, homophobia, animal abuse or any other form of hate-speech.
-
-## 9 Technical Support
-
-Technical support is provided via Email and on GitHub. If you’re facing any problems with running or setting up ImageKit, please send your request to [support@fabianmichael.de](mailto:support@fabianmichael.de) or [create a new issue](https://github.com/fabianmichael/kirby-imagekit/issues/new) in this GitHub repository. No representations or guarantees are made regarding the response time in which support questions are answered.
-
-## 10 Credits
-
-ImageKit is developed and maintained by [Fabian Michael](https://fabianmichael.de), a graphic designer & web developer from Germany.
